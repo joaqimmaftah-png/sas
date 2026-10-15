@@ -1,0 +1,1 @@
+<input type="hidden" name="car_reg_num" value="<?php echo $_GET['q'];?>">
