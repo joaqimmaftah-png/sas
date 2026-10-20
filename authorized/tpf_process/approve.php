@@ -1,0 +1,94 @@
+﻿<?php
+require_once __DIR__ . '/../../mysql_compat.php';
+
+include '../db.php';
+$Quotation_No=$_GET['qn_coding'];
+$bb = mysql_query("SELECT * FROM  tbl_tpf_qt WHERE Quotation_No='$Quotation_No'")or die(mysql_error());
+$cc=mysql_fetch_array($bb);
+$tpf_no=$cc['tpf_no'];
+$qtn_amount=$cc['qtn_amount'];
+$tpf_name=$cc['tpf_name'];
+
+?>
+
+<head>
+     <script type="text/javascript">
+        $(document).ready(function (e) {
+            $("#sub_approve").on('submit', (function (e) {
+                e.preventDefault();
+                
+                $.ajax({url: "authorized/tpf_process/approve_and_send_email.php",
+                    type: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        $("#show_email_notification").html(data);
+                       $('.success').fadeIn(200).show();
+                       $('.error').fadeOut(200).hide();
+                    },
+                    error: function () {
+                    }
+                });
+            }));
+        });
+    </script>
+   
+</head>   
+
+
+
+<form  action="" enctype="multipart/form-data" method="post" id="sub_approve">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="myModalLabel">Approval Status</h4>
+    </div>
+
+    <div class="modal-body">
+        <div id="show_email_notification">
+       <div style="height:30px" class="success" style="display: none;">
+    <div id="progress" class="progress">
+<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+    </div>
+    
+</div>
+
+        </div>       
+        <div role="tabpanel">                          
+            <div class="tab-content" style="padding:15px 0">
+                <div role="tabpanel" class="tab-pane active" id="tab1">
+
+                    <div class="input-group" style="width:100%; margin:10px 0">
+                        <span class="input-group-addon" id="sizing-addon1" style="width:30%; text-align:right"><span class="text-right">Ref TPF No:</span></span>
+                        <input name="tpf_code" id="product_code" class="form-control" value="<?php echo $tpf_no; ?>" aria-describedby="sizing-addon1" readonly="" type="text">
+                    </div>
+                    
+                    <div class="input-group" style="width:100%; margin:10px 0">
+                        <span class="input-group-addon" id="sizing-addon1" style="width:30%; text-align:right"><span class="text-right">Ref QT No:</span></span>
+                        <input name="qtn_code" id="product_code" class="form-control" value="<?php echo $Quotation_No; ?>" aria-describedby="sizing-addon1" readonly="" type="text">
+                    </div>
+
+                     <div class="input-group" style="width:100%; margin:10px 0">
+                        <span class="input-group-addon" id="sizing-addon1" style="width:30%; text-align:right"><span class="text-right">Job:</span></span>
+                        <input name="tpf_name" id="product_code" class="form-control" value="<?php echo $tpf_name; ?>" aria-describedby="sizing-addon1" readonly="" type="text">
+                    </div>
+                    
+                    <div class="input-group" style="width:100%; margin:10px 0">
+                        <span class="input-group-addon" id="sizing-addon1" style="width:30%; text-align:right"><span class="text-right">Amounts:</span></span>
+                        <input name="amount" id="buying_price" class="form-control amount editable" placeholder="Enter Total Amounts" value="Tshs. <?php echo $qtn_amount;?>" readonly="" aria-describedby="sizing-addon1" type="text">
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <button type="button" class="btn btn-default bg-darkBlue shadow fg-white" data-dismiss="modal"><span class="icon-cancel-2" aria-hidden="true"></span> Cancel</button>
+            <button type="submit" id="submit_button" class="btn bg-green shadow"  data-complete-text="Saving..." autocomplete="off">
+                <span class="icon-checkmark " aria-hidden="true"></span> Approve </button>
+        </div>
+    </div>
+</form>
+

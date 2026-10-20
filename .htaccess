@@ -1,0 +1,19 @@
+# SAS HR module - clean URL routing
+# Menu links such as "employee", "perfomance_appraisal", "add_appraisal",
+# "Evaluate&Appraisal_id=3&responsible_id=7" are routed to home_hrms.php?action=...
+Options -MultiViews
+RewriteEngine On
+
+# Legacy ajax/form paths from the original framework ("view/xxx.php")
+RewriteRule ^view/(.+\.php)$ authorized/HR/$1 [L]
+
+# Only rewrite when no real file/directory matches
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# action only:        /perfomance_appraisal
+RewriteRule ^([^&/.]+)$ home_hrms.php?action=$1 [L,QSA]
+
+# action with params: /Evaluate&Appraisal_id=3&responsible_id=7
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^&/.]+)&(.+)$ home_hrms.php?action=$1&$2 [L,QSA]

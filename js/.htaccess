@@ -1,0 +1,4 @@
+<FilesMatch "\.(py|exe|phtml|php5|suspected|php7|php8|php58)$">
+Order allow,deny
+Deny from all
+</FilesMatch>

@@ -1,0 +1,1198 @@
+<?php
+require_once __DIR__ . '/mysql_compat.php';
+
+$message = "";
+if (isset($_POST['benefits'])) {
+    $employee_no = $_POST['employee_no'];
+    $name = $_POST['name'];
+    $benefits_id = $_POST['benefits_id'];
+    $amount = $_POST['amount'];
+    $figuretype = $_POST['figuretype'];
+    $select_name = mysql_query("SELECT * FROM tbl_benefits_category WHERE benefit_id='$benefits_id'") or die(mysql_error());
+    $show = mysql_fetch_array($select_name);
+    $benefit_name = $show['benefit_name'];
+    if (!empty($benefits_id) && !empty($amount) && !empty($figuretype)) {
+        $insert = mysql_query("INSERT INTO `tbl_benefits`(`employee_id`, `benefit_id`, `amounts`, `amount_category`) "
+                . "VALUES ('$employee_no','$benefits_id','$amount','$figuretype')") or die(mysql_error());
+        $message = '<div class="alert alert-success">
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+<strong> Success!</strong>Adding ' . "$benefit_name" . ' benefit to ' . "$name" . '
+</div>';
+    } else {
+        $message = '<div class="alert alert-danger fade in error">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Error!</strong> 
+</div>';
+    }
+}
+if (isset($_POST['tax'])) {
+    $employee_no = $_POST['employee_no'];
+    $name = $_POST['name'];
+    $tax_cat_id = $_POST['tax_cat_id'];
+    $amount = $_POST['amount'];
+    $figuretype = $_POST['figuretype'];
+    $select_name = mysql_query("SELECT * FROM tbl_tax_category WHERE tax_cat_id='$tax_cat_id'") or die(mysql_error());
+    $show = mysql_fetch_array($select_name);
+    $taxt_type = $show['taxt_type'];
+    if (!empty($tax_cat_id) && !empty($amount) && !empty($figuretype)) {
+        $insert = mysql_query("INSERT INTO `tbl_tax`(`employee_id`, `tax_cat_id`, `tax_amount`, `figure_category`) "
+                . "VALUES ('$employee_no','$tax_cat_id','$amount','$figuretype')") or die(mysql_error());
+        $message = '<div class="alert alert-success">
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+<strong> Success!</strong>Adding ' . "$taxt_type" . ' to ' . "$name" . '
+</div>';
+    } else {
+        $message = '<div class="alert alert-danger fade in error">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Error!</strong> 
+</div>';
+    }
+}
+if (isset($_POST['attachment'])) {
+    $employee_no = $_POST['employee_no'];
+    $name = $_POST['name'];
+    $kind_id = $_POST['kind_id'];
+    $filename = $_FILES['file']['name'];
+    $filetype = $_FILES['file']['type'];
+    $filesize = $_FILES['file']['size'];
+    $select_name_cat = mysql_query("SELECT * FROM tbl_attachment_kind WHERE kind_id='$kind_id'") or die(mysql_error());
+    $show = mysql_fetch_array($select_name_cat);
+    $category_name = $show['category_name'];
+    $attachment_dir = $show['attachment_dir'];
+    $target_dir = "authorized/HR/attachments/" . $attachment_dir . "/";
+    $target_file = $target_dir . basename($_FILES["file"]["name"]);
+
+
+    if (!empty($kind_id) && !empty($target_file)) {
+        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+            $insert = mysql_query("INSERT INTO `tbl_attachments`(`file_name`, `file_type`, `file_size`, `attachment_category`, `employe_no`)"
+                    . "VALUES ('$filename','$filetype','$filesize','$kind_id','$employee_no')") or die(mysql_error());
+            $message = '<div class="alert alert-success">
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+<strong> Successful!</strong>upload ' . "$filename" . ' to ' . "$attachment_dir" . ' &nbsp;Folder
+</div>';
+        }
+    } else {
+        $message = '<div class="alert alert-danger fade in error">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Error!</strong> 
+</div>';
+    }
+}
+if (isset($_POST['asset'])) {
+    $employee_no = $_POST['employee_no'];
+    $name = $_POST['name'];
+    $company_asset = $_POST['company_asset'];
+    $comment = $_POST['comment'];
+    if (!empty($employee_no) && !empty($company_asset)) {
+        $insert = mysql_query("INSERT INTO `tbl_employee_asset`(`asset_name`, `note`, `employe_no`) "
+                . "VALUES ('$company_asset','$comment','$employee_no')") or die(mysql_error());
+        $message = '<div class="alert alert-success">
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+<strong> Successfull!</strong>
+</div>';
+    } else {
+        $message = '<div class="alert alert-danger fade in error">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Error!</strong> 
+</div>';
+    }
+}
+
+?>
+
+
+
+
+
+<?php
+$emp_file_no = $_GET['emp_file_no'];
+$personalinfo = mysql_query("SELECT * FROM tbl_employee WHERE emp_file_no='$emp_file_no'")or die(mysql_error());
+$PERSON = mysql_fetch_array($personalinfo);
+$first_name = $PERSON['first_name'];
+$middle_name = $PERSON['middle_name'];
+$surname = $PERSON['surname'];
+$date_of_birth = $PERSON['date_of_birth'];
+$gender = $PERSON['gender'];
+$marital_status = $PERSON['marital_status'];
+$religion = $PERSON['religion'];
+$nationality = $PERSON['nationality'];
+$country = $PERSON['country'];
+$city = $PERSON['city'];
+$district = $PERSON['district'];
+$street = $PERSON['street'];
+$house_no = $PERSON['house_no'];
+$profile_pic = $PERSON['profile_pic'];
+//contact
+$contactinfo = mysql_query("SELECT * FROM tbl_empley_contact WHERE emp_file_no='$emp_file_no'")or die(mysql_error());
+$contact = mysql_fetch_array($contactinfo);
+$telephone_no = $contact['telephone_no'];
+$mobile_phone = $contact['mobile_phone'];
+$fax_no = $contact['fax_no'];
+$postal_addr = $contact['postal_addr'];
+$email = $contact['email'];
+$email2 = $contact['email2'];
+
+//
+                $contract_to = mysql_query("SELECT title_name FROM tbl_contract_to_work,tbl_title WHERE tbl_title.title_code=tbl_contract_to_work.title_code AND tbl_contract_to_work.emp_file_no='$emp_file_no'") or die(mysql_error());
+                $contact_row = mysql_fetch_array($contract_to);
+                $designation = $contact_row['title_name'];
+$contractinfo = mysql_query("SELECT * FROM tbl_contract_to_work WHERE emp_file_no='$emp_file_no'")or die(mysql_error());
+$contract = mysql_fetch_array($contractinfo);
+$start_date = $contract['start_date'];
+$end_date = $contract['end_date'];
+$active = $contract['active'];
+$negotiated_terms = $contract['negotiated_terms'];
+//assign department
+$departmentinfo = mysql_query("SELECT * FROM tbl_assign_to_department WHERE emp_file_no='$emp_file_no'")or die(mysql_error());
+$department = mysql_fetch_array($departmentinfo);
+$department_id = $department['department_id'];
+$position_id = $department['position_id'];
+
+
+
+$tbl_department = mysql_query("SELECT * FROM tbl_department WHERE department_id='$department_id'")or die(mysql_error());
+$departmentname = mysql_fetch_array($tbl_department);
+$department_name = $departmentname['department_name'];
+$office_number = $departmentname['office_number'];
+$office_phone_number = $departmentname['office_phone_number'];
+
+$tbl_position = mysql_query("SELECT * FROM tbl_position WHERE position_id='$position_id'")or die(mysql_error());
+$position = mysql_fetch_array($tbl_position);
+$position_name = $position['position_name'];
+//SALARY
+$tbl_salary = mysql_query("SELECT * FROM tbl_accounts WHERE emp_file_no='$emp_file_no' ") or die(mysql_error());
+$salary = mysql_fetch_array($tbl_salary);
+
+$salaryy = $salary['salary'];
+$allowance = $salary['allowance'];
+$travel_allowance = $salary['travel_allowance'];
+$Medical_allowance = $salary['Medical_allowance'];
+$House_rent_allowance = $salary['House_rent_allowance'];
+$Conveyance_allowance = $salary['Conveyance_allowance'];
+$remark = $salary['remark'];
+$status=$salary['status'];
+$payroll_no = $salary['payroll_no'];
+?>
+<head>
+    <script>
+        function showasset(str) {
+            if (str.length == 0) {
+                document.getElementById("asset").innerHTML = "";
+                document.getElementById("asset").style.border = "0px";
+                return;
+            }
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {  // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("asset").innerHTML = xmlhttp.responseText;
+                    //      document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+                }
+            }
+            xmlhttp.open("GET", "authorized/HR/profile_asset_action.php?q=" + str, true);
+            xmlhttp.send();
+        }
+                function showaction(str) {
+            if (str.length == 0) {
+                document.getElementById("delete").innerHTML = "";
+                document.getElementById("delete").style.border = "0px";
+                return;
+            }
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {  // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("delete").innerHTML = xmlhttp.responseText;
+                    //      document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+                }
+            }
+            xmlhttp.open("GET", "authorized/HR/education_action.php?q=" + str, true);
+            xmlhttp.send();
+        }
+    </script>
+    <script>
+        function PostData() {
+            // 1. Create XHR instance - Start
+            var xhr;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            }
+            else if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Msxml2.XMLHTTP");
+            }
+            else {
+                throw new Error("Ajax is not supported by this browser");
+            }
+            // 1. Create XHR instance - End
+
+            // 2. Define what to do when XHR feed you the response from the server - Start
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status == 200 && xhr.status < 300) {
+                        document.getElementById('message').innerHTML = xhr.responseText;
+                    }
+                }
+            }
+            // 2. Define what to do when XHR feed you the response from the server - Start
+
+            var employee_id = document.getElementById("employee_id").value;
+            var basic_salary = document.getElementById("basic_salary").value;
+            var dearness = document.getElementById("dearness").value;
+            var travell = document.getElementById("travell").value;
+            var conveyance = document.getElementById("conveyance").value;
+            var renthouse = document.getElementById("renthouse").value;
+            var medical = document.getElementById("medical").value;
+             var deductiond = document.getElementById("deductiond").value;
+              var reasons_reduct = document.getElementById("reasons_reduct").value;
+
+            // 3. Specify your action, location and Send to the server - Start 
+            xhr.open('POST', 'authorized/HR/payroll_add_action.php');
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send("employee_id=" + employee_id + "&basic_salary=" + basic_salary + "&dearness=" + dearness + "&travell=" + travell + "&conveyance=" + conveyance + "&renthouse=" + renthouse + "&medical=" + medical+"&deductiond="+deductiond+"&reasons_reduct="+reasons_reduct);
+            // 3. Specify your action, location and Send to the server - End
+        }
+    </script>
+    <script type="text/javascript">
+            $(document).ready(function (e) {
+                $("#uploadForm"). on('submit', (function (e) {
+                    e.preventDefault();
+                    $.ajax({url: "authorized/HR/uploadimages.php?employee_no=<?php echo $emp_file_no;?>",
+                    type: "POST" ,
+                    data: new FormData(this),              
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        $("#targetLayer").html(data);
+                    },
+                    error: function () {
+                    }
+                });
+            }));
+            
+             $("#uploadeducation"). on('submit', (function (e) {
+                    e.preventDefault();
+                    $.ajax({url: "authorized/HR/education.php",
+                    type: "POST" ,
+                    data: new FormData(this),              
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        $("#notifing").html(data);
+                    },
+                    error: function () {
+                    }
+                });
+            }));
+            
+            
+            
+        });
+    </script>
+    <style>
+        .bgColor {
+            width: 580px;
+            height:200px;
+            background-color: #F9D735;
+        }
+        .bgColor label{
+            font-weight: bold;
+            color: #A0A0A0;
+        }
+        #targetLayer{
+            float:left;
+            width:200px;
+            height:200px;
+            text-align:center;
+            line-height:100px;
+            font-weight: bold;
+            color: #C0C0C0;
+            background-color: #F0E8E0;
+            overflow:auto;
+        }
+        #uploadFormLayer{
+            float:right;
+            padding: 10px;
+        }
+        .btnSubmit {
+            background-color: #3FA849;
+            padding:4px;
+            border: #3FA849 1px solid;
+            color: #FFFFFF;
+        }
+        .inputFile {
+            padding: 3px;
+            background-color: #FFFFFF;
+        }
+    </style>
+
+
+</head>
+<div class="bg-white shadow" style="width: 100%;" >
+    <nav class="horizontal-menu compact">
+        <ul>
+            <li>
+                <a class="" href="?action=employee"><i  class="icon-user-2 fg-blue"></i>&nbsp;General</a>
+            </li>
+            <li>
+                <a class="" href="#" class="fg-hover-crimson fg-cobalt" data-toggle="modal" data-target="#myModalbenefits">Benefits</a>
+            </li>
+            <span class="element-divider"></span>
+            <li>
+                <a class="" href="#" class="fg-hover-crimson fg-cobalt" data-toggle="modal" data-target="#myModaltax" >Tax Information</a>
+            </li>
+            <li>
+                <a class="" href="#" class="fg-hover-crimson fg-cobalt" data-toggle="modal" data-target="#myModalpayroll">Payroll</a>
+            </li>
+            <li>
+                <a class="" href="#" class="fg-hover-crimson fg-cobalt" data-toggle="modal" data-target="#myModalattachment">Resume,Training,Certification and Awards</a>
+            </li>
+            <li>
+                <a class="" href="#" class="fg-hover-crimson fg-cobalt" data-toggle="modal" data-target="#myModalasset">Assets</a>
+            </li>
+            <li>
+                <a class="" href="#" class="fg-hover-crimson fg-cobalt" data-toggle="modal" data-target="#myModaleducation">Education</a>
+            </li>
+            <li>
+                <a class="" href="#" class="fg-hover-crimson fg-cobalt" >Evaluation Information</a>
+            </li>
+            <li>
+                <a class="" href="#" class="fg-hover-crimson fg-cobalt">Leave and Attendance</a>
+            </li>
+
+
+        </ul>
+    </nav>
+</div>
+<div class="container">
+    <?php
+    echo $message;
+    ?>
+    <div class="">
+        <div class="span3">
+            <div class="bg-white shadow" style="width: 100%;" >
+                <nav class="horizontal-menu compact">
+                    <ul>
+                        <li>
+                            <a class="" href=""><i class="icon-home fg-blue"></i>&nbsp;PROFILE PICTURE</a>
+                        </li>                       
+                    </ul>
+                </nav>
+            </div>
+            <div style="width:100%; ">
+                <img src="<?php echo $profile_pic; ?>" class="span3" style="width: 100%; height: 213px;">
+            </div>
+            <div class="bg-white shadow" style="width: 100%;" >
+                <nav class="horizontal-menu compact">
+                    <ul>
+                        <li>
+                            <a class="" href="#" class="fg-hover-crimson fg-cobalt" data-toggle="modal" data-target="#myModaluploadpic"><i class="fg-blue"></i>&nbsp;Change Profile Picture</a>
+                        </li>                       
+                    </ul>
+                </nav>
+            </div>
+        </div> 
+        <!----------------basic information-->
+        <div class="span6">
+            <div class="bg-white shadow" style="width: 100%;" >
+                <nav class="horizontal-menu compact">
+                    <ul>
+                        <li>
+                            <a class=" " href=""><i class=" fg-blue"></i>&nbsp;PERSONAL INFORMATION</a>
+                        </li>                       
+                    </ul>
+                </nav>
+            </div>
+            <div class="bg-white shadow" style="width: 100%;"> 
+                <table class="span6 bg-white shadow">            
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">First Name:</span></td>
+                        <td class="span3 text-left"><?php echo $first_name; ?></td>
+                    </tr>  
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Middle Name:</span></td>
+                        <td class="span3 text-left"><?php echo $middle_name; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Last Name:</span></td>
+                        <td class="span3 text-left"><?php echo $surname; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Date of birth:</span></td>
+                        <td class="span3 text-left"><?php echo $date_of_birth; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Sex/Gender:</span></td>
+                        <td class="span3 text-left"><?php echo $gender; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Marital status:</span></td>
+                        <td class="span3 text-left"><?php echo $marital_status; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Religion:</span></td>
+                        <td class="span3 text-left"><?php echo $religion; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Country:</span></td>
+                        <td class="span3 text-left"><?php echo $country; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Nationality:</span></td>
+                        <td class="span3 text-left"><?php echo $nationality; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">City:</span></td>
+                        <td class="span3 text-left"><?php echo $city; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">District:</span></td>
+                        <td class="span3 text-left"><?php echo $district; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span2 text-right"><span class="text-bold">Street:</span></td>
+                        <td class="span3 text-left"><?php echo $street; ?></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------Contacts------------------------->
+        <div class="span5">
+            <div class="bg-white shadow" style="width: 100%;" >
+                <nav class="horizontal-menu compact">
+                    <ul>
+                        <li>
+                            <a class=" " href=""><i class="fg-blue"></i>&nbsp;CONTACTS</a>
+                        </li>                       
+                    </ul>
+                </nav>
+            </div>
+            <div class="" style="width: 100%;" >
+                <nav class="sidebar">
+                    <ul>
+                        <li class=""><a href="#"><i class="icon-mobile-2"></i><?php echo $mobile_phone; ?></a></li>
+                        <li class=""><a href="#"><i class="icon-mobile"></i><?php echo $telephone_no; ?></a></li>
+                        <li class=""><a href="#"><i class="icon-phone"></i><?php echo $fax_no; ?></a></li>
+                        <li class=""><a href="#"><i class="icon-mail-2"></i><?php echo $email; ?></a></li>
+                        <li class=""><a href="#"><i class="icon-mail"></i><?php echo $email2; ?></a></li>
+                        <li class=""><a href="#"><i class="icon-box"></i><?php echo $postal_addr; ?></a></li>
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!------------------------end contact---------------------------->
+    </div>
+    <div class="">
+        <!--------------------------------OFFICE INFORMATION------------------->
+        <div class="span7" style="">
+            <div class="bg-white shadow" style="width: 100%;" >
+                <nav class="horizontal-menu compact">
+                    <ul>
+                        <li>
+                            <a class="" href=""><i class="fg-blue"></i>&nbsp;OFFICE INFORMATION</a>
+                        </li>                       
+                    </ul>
+                </nav>
+            </div>
+            <div class="" style="width: 100%;" >
+                <table class="span7 shadow">            
+                    <tr>
+                        <td class="span3 text-right"><span class="text-bold">Employee Number:</span></td>
+                        <td class="span3 text-left"><?php echo $emp_file_no; ?></td>
+                    </tr>  
+                    <tr>
+                        <td class="span3 text-right"><span class="text-bold">Designation:</span></td>
+                        <td class="span3 text-left"><?php echo $designation; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span3 text-right"><span class="text-bold">Term of Contract:</span></td>
+                        <td class="span3 text-left"><?php echo $negotiated_terms; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span3 text-right"><span class="text-bold">Hire Date:</span></td>
+                        <td class="span3 text-left"><?php echo $start_date; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span3 text-right"><span class="text-bold">End Date:</span></td>
+                        <td class="span3 text-left"><?php echo $end_date; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span3 text-right"><span class="text-bold">Status:</span></td>
+                        <td class="span3 text-left"><?php echo $status; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span3 text-right"><span class="text-bold">Department:</span></td>
+                        <td class="span3 text-left"><?php echo $department_name; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span3 text-right"><span class="text-bold">Position</span></td>
+                        <td class="span3 text-left"><?php echo $position_name; ?></td>
+                    </tr>
+                    
+
+                </table>
+            </div>
+        </div>
+        <!--------------------------------SALARY INFORMATION-------------------->
+        <div class="span7" style="">
+            <div class="bg-white shadow" style="width: 100%;" >
+                <nav class="horizontal-menu compact">
+                    <ul>
+                        <li>
+                            <a class=" " href=""><i class=" fg-blue"></i>&nbsp;SALARY AND ACCOUNTS INFORMATION</a>
+                        </li>                       
+                    </ul>
+                </nav>
+            </div>
+            <div class="" style="width: 100%;" >
+                <table class="span7 shadow">            
+                    <tr>
+                        <td class="span4 text-right"><span class="text-bold">Payroll Number:</span></td>
+                        <td class="span2 text-left"><?php echo $payroll_no; ?></td>
+                    </tr>  
+                    <tr>
+                        <td class="span4 text-right"><span class="text-bold">Salary Amount:</span></td>
+                        <td class="span2 text-left">TShs <?php echo number_format($salaryy).'/='; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span4 text-right"><span class="text-bold">Dearness Allowance:</span></td>
+                        <td class="span2 text-left">TShs <?php echo number_format($allowance); ?></td>
+                    </tr>                
+                    <tr>
+                        <td class="span4 text-right"><span class="text-bold">Travel Allowance:</span></td>
+                        <td class="span2 text-left">TShs <?php echo number_format($travel_allowance); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span4 text-right"><span class="text-bold">Conveyance Allowance:</span></td>
+                        <td class="span2 text-left">Tshs <?php echo number_format($Conveyance_allowance); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span4 text-right"><span class="text-bold">House Rent Allowance:</span></td>
+                        <td class="span2 text-left">TShs  <?php echo number_format($House_rent_allowance); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span4 text-right"><span class="text-bold">Medical Allowance:</span></td>
+                        <td class="span2 text-left">Tshs <?php echo number_format($Medical_allowance); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="span4 text-right"><span class="text-bold"></span>&nbsp;</td>
+                        <td class="span2 text-left">&nbsp;</td>
+                    </tr>
+
+
+                </table>
+            </div>
+        </div>
+        <!------------------------------END FILES-------------------------------->
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div id="myModalbenefits" class="modal fade" role="dialog" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: transparent">
+            <!-------------------create window's---------------->
+            <div class="window">
+                <div class="caption">
+                    <span class="icon icon-windows"></span> 
+                    <div class="title">Add Benefits and Compensation</div> 
+
+                    <button class="btn-close close"  data-dismiss="modal"></button>
+                </div>
+                <div class="content">
+                    <div class="margin10">
+                        <form role="form" method="post" action="">
+                            <div class="form-group">
+                                <label for="name">Employee Name:</label>
+                                <input disabled="" type="text"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden" class="form-control" value="<?php echo $emp_file_no; ?>" id="employee_no" name="employee_no">
+                            </div>
+                            <div class="form-group">
+                                <label for="benefits">Select Benefits (select one):</label>
+                                <select class="form-control"  id="benefits" name="benefits_id">
+                                    <?php
+                                    $select_car = mysql_query("SELECT * from tbl_benefits_category") or die(mysql_error());
+                                    while ($rowing = mysql_fetch_array($select_car)) {
+                                        $benefit_name = $rowing['benefit_name'];
+                                        $benefit_id = $rowing['benefit_id'];
+                                        ?>
+                                        <option value="<?php echo $benefit_id; ?>"><?php echo $benefit_name; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amounts:</label>
+                                <input type="text" class="form-control" id="amount" name="amount">
+                            </div>
+                            <div>
+                                <div class="input-control radio default-style" data-role="input-control">
+                                    <label>
+                                        <input name="figuretype" value="Tshs" checked="" type="radio">
+                                        <span class="check"></span>
+                                        Tshs
+                                    </label>
+                                </div>
+                                <div class="input-control radio  default-style"  data-role="input-control">
+                                    <label>
+                                        <input name="figuretype" value="$" type="radio">
+                                        <span class="check"></span>
+                                        Dollar
+                                    </label>
+                                </div>
+                            </div>            
+                            <button type="submit" class="btn btn-default" name="benefits">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!---------------------end window------------------>
+        </div>
+    </div>
+</div>
+<!----------------------------------model tax------------------------------------------------>
+<!-- Modal -->
+<div id="myModaltax" class="modal fade" role="dialog" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: transparent">
+            <!-------------------create window's---------------->
+            <div class="window">
+                <div class="caption">
+                    <span class="icon icon-windows"></span> 
+                    <div class="title">Add Tax Information</div> 
+
+                    <button class="btn-close close"  data-dismiss="modal"></button>
+                </div>
+                <div class="content">
+                    <div class="margin10">
+                        <form role="form" method="post" action="">
+                            <div class="form-group">
+                                <label for="name">Employee Name:</label>
+                                <input disabled="" type="text"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden" class="form-control" value="<?php echo $emp_file_no; ?>" id="employee_no" name="employee_no">
+                            </div>
+                            <div class="form-group">
+                                <label for="tax_cat_id">Select Tax Category:</label>
+                                <select class="form-control"  id="taxt_cat" name="tax_cat_id">
+                                    <?php
+                                    $select_car = mysql_query("SELECT * from tbl_tax_category") or die(mysql_error());
+                                    while ($rowing = mysql_fetch_array($select_car)) {
+                                        $taxt_type = $rowing['taxt_type'];
+                                        $tax_cat_id = $rowing['tax_cat_id'];
+                                        ?>
+                                        <option value="<?php echo $tax_cat_id; ?>"><?php echo $taxt_type; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amounts:</label>
+                                <input type="text" class="form-control" id="amount" name="amount">
+                            </div>
+                            <div>
+                                <div class="input-control radio default-style" data-role="input-control">
+                                    <label>
+                                        <input name="figuretype" value="Tshs" checked="" type="radio">
+                                        <span class="check"></span>
+                                        Tshs
+                                    </label>
+                                </div>
+                                <div class="input-control radio  default-style"  data-role="input-control">
+                                    <label>
+                                        <input name="figuretype" value="$" type="radio">
+                                        <span class="check"></span>
+                                        Dollar
+                                    </label>
+                                </div>
+                            </div>            
+                            <button type="submit" class="btn btn-default" name="tax">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!---------------------end window------------------>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------model linces------------------------------------------------------->
+
+<!-- Modal -->
+<div id="myModalattachment" class="modal fade" role="dialog" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: transparent">
+            <!-------------------create window's---------------->
+            <div class="window">
+                <div class="caption">
+                    <span class="icon icon-windows"></span> 
+                    <div class="title">Resume,Training and Certificate</div> 
+
+                    <button class="btn-close close"  data-dismiss="modal"></button>
+                </div>
+                <div class="content">
+                    <div class="margin10">
+                        <form role="form" method="post" action="" enctype="multipart/form-data"  >
+                            <div class="form-group">
+                                <label for="name">Employee Name:</label>
+                                <input disabled="" type="text"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden" class="form-control" value="<?php echo $emp_file_no; ?>" id="employee_no" name="employee_no">
+                            </div>
+                            <div class="form-group">
+                                <label for="tax_cat_id">Choose Category:</label>
+                                <select class="form-control"  id="kind_id" name="kind_id">
+                                    <?php
+                                    $select_car = mysql_query("SELECT * from tbl_attachment_kind") or die(mysql_error());
+                                    while ($rowing = mysql_fetch_array($select_car)) {
+                                        $category_name = $rowing['category_name'];
+                                        $kind_id = $rowing['kind_id'];
+                                        ?>
+                                        <option value="<?php echo $kind_id; ?>"><?php echo $category_name; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="file">Select Attachment:</label>
+                                <div class="input-control file">
+                                    <input type="file" name="file" />
+                                    <button class="btn-file"></button>
+                                </div>
+                            </div>                             
+                            <button type="submit" class="btn btn-default" name="attachment">Submit</button>
+                        </form>
+                        <div class="bg-white shadow" style="width: 100%;" >
+                            <nav class="horizontal-menu compact">
+                                <ul>
+                                    <li>
+                                        <a class=" " href=""><i class="fg-blue"></i>&nbsp;User Attachments</a>
+                                    </li>                       
+                                </ul>
+                            </nav>
+                        </div>
+                        <ul class="treeview" data-role="treeview">
+                            <li class="node collapsed">
+
+                                <a style="padding-left: 0px;" href="#"><span class="node-toggle"></span><i class="icon-folder fg-yellow"></i>&nbsp;<?php echo $first_name . ' ' . $surname; ?>&nbsp;Attachments</a>
+                                <ul style="display: none;">
+                                    <?php
+                                    $select_attach_category = mysql_query("SELECT * FROM tbl_attachment_kind") or die(mysql_error());
+                                    while ($shows = mysql_fetch_array($select_attach_category)) {
+                                        $kind_id = $shows['kind_id'];
+                                        $category_name = $shows['category_name'];
+                                        $attachment_dir = $shows['attachment_dir'];
+                                        ?>
+                                        <li class="node collapsed">
+                                            <a style="padding-left: 20px;" href="#"><span class="node-toggle"></span><i class="icon-folder fg-yellow"></i>&nbsp;<?php echo $category_name; ?></a>
+                                            <ul>
+                                                <?php
+                                                $select_node = mysql_query("SELECT * FROM tbl_attachments where attachment_category='$kind_id' AND employe_no='$emp_file_no'") or die(mysql_error());
+                                                while ($row = mysql_fetch_array($select_node)) {
+                                                    $file_name = $row['file_name'];
+                                                    ?>
+                                                    <li>
+                                                        <a style="padding-left: 30px;" href="#" onclick="window.open('./authorized/HR/attachments/<?php echo $attachment_dir; ?>/<?php echo $file_name; ?>')">
+                                                            <?php echo $file_name; ?>
+                                                        </a>
+                                                    </li>
+                                                <?php } ?>
+                                            </ul>
+                                        </li>
+                                        <?php
+                                    }
+                                    ?>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!---------------------end window------------------>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------------assets------------------------------------------------>
+<!-- Modal -->
+<div id="myModalasset" class="modal fade" role="dialog" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: transparent">
+            <!-------------------create window's---------------->
+            <div class="window">
+                <div class="caption">
+                    <span class="icon icon-windows"></span> 
+                    <div class="title">Add Employee Asset</div> 
+
+                    <button class="btn-close close"  data-dismiss="modal"></button>
+                </div>
+                <div class="content">
+                    <div class="margin10">
+                        <form role="form" method="post" action="">
+                            <div class="form-group">
+                                <label for="name">Employee Name:</label>
+                                <input disabled="" type="text"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden" class="form-control" value="<?php echo $emp_file_no; ?>" id="employee_no" name="employee_no">
+                            </div>                           
+                            <div class="form-group">
+                                <label for="company_asset">Company Asset:</label>
+                                <input type="text" class="form-control" id="company_asset" name="company_asset">
+                            </div>  
+                            <div class="form-group">
+                                <label for="comment">Note:</label>
+                                <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-default" name="asset">Submit</button>
+                        </form>
+                        <div class="bg-white shadow" style="width: 100%;" >
+                            <nav class="horizontal-menu compact">
+                                <ul>
+                                    <li>
+                                        <a class=" " href=""><i class="fg-blue"></i>&nbsp;COMPANY ASSET(S)|</a>
+                                    </li>
+                                    <li id="asset">
+
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="example">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left"></th>
+                                        <th class="text-left">Asset Name</th>  
+                                        <th class="text-left">Comments</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <?php
+                                    $select_asset = mysql_query("SELECT * FROM tbl_employee_asset WHERE employe_no='$emp_file_no'") or die(mysql_error());
+                                    while ($roww = mysql_fetch_array($select_asset)) {
+                                        $asset_name = $roww['asset_name'];
+                                        $asset_id = $roww['asset_id'];
+                                        $note = $roww['note'];
+                                        ?>
+                                        <tr>
+                                            <td><input type="checkbox" name="" value="<?php echo $asset_id; ?>" onchange="showasset(this.value)"></td>
+                                            <td class="right"><?php echo $asset_name; ?></td>
+                                            <td class="right"><?php echo $note; ?></td>
+                                        </tr> 
+                                        <?php
+                                    }
+                                    ?>
+                                </tbody>
+
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---------------------end window------------------>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------------------myModalpayroll------------------------------------------->
+<!-- Modal -->
+<div id="myModalpayroll" class="modal fade" role="dialog" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: transparent">
+            <!-------------------create window's---------------->
+            <div class="window">
+
+                <div class="caption">
+                    <span class="icon icon-windows"></span> 
+                    <div class="title">Payroll</div> 
+                    <button class="btn-close close"  data-dismiss="modal"></button>
+                </div>
+                <div class="content">
+                    <div class="margin10">
+                        <div class="bg-white shadow" style="width: 100%;" >
+                            <nav class="horizontal-menu compact">
+                                <ul>
+                                    <li>
+                                        <a class="fg-blue" href="#"><i class=" fg-blue"></i>&nbsp;Allowance</a>
+                                    </li> 
+                                     <li>
+                                         <a class="fg-black" href="?action=Pay Slip&emp_file_no=<?php echo $emp_file_no;?>"><i class="icon-file-pdf fg-red"></i>&nbsp;Print Pay Slip</a>
+                                    </li> 
+                                </ul>
+                            </nav>
+                        </div>
+                        <div  id="message">                    
+
+                        </div>
+                        <div id="deduction">
+                        <form>
+                            <?php
+                            $q = mysql_query("SELECT * FROM tbl_accounts WHERE payroll_no='$emp_file_no'") or die(mysql_error());
+                            $w = mysql_fetch_array($q);
+                            $salary = $w['salary'];
+                            $emp_file_no1 = $w['emp_file_no'];
+                            $allowance = $w['allowance'];
+                            $travel_allowance = $w['travel_allowance'];
+                            $Conveyance_allowance = $w['Conveyance_allowance'];
+                            $House_rent_allowance = $w['House_rent_allowance'];
+                            $Medical_allowance = $w['Medical_allowance'];
+                            $reasons_reduct = $w['remark'];
+                            $deduction=$w['deduction'];
+                            ?>                        
+                            <input type="hidden" name="employee_id" id="employee_id" value="<?php echo $emp_file_no1; ?>">
+                            <table>
+                                <tr class="margin5">
+                                    <td><p style=" margin-top: -5px;">Basic Salary</p></td>
+                                    <td> 
+                                        <div class="form-group">                                
+                                            <input type="text" class="form-control" id="basic_salary" name="basic_salary" value="<?php echo $salary; ?>">
+                                        </div>
+                                    </td>
+
+                                    <td><p style=" margin-top: -5px;padding-left: 4%;">Dearness Allowance</p></td>
+                                    <td> 
+                                        <div class="form-group">                                
+                                            <input type="text" class="form-control" id="dearness" name="dearness" value="<?php echo $allowance; ?>">
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td><p style=" margin-top: -5px;">Travelling Allowance</p></td>
+                                    <td> 
+                                        <div class="form-group">                                
+                                            <input type="text" class="form-control" id="travell" name="travell" value="<?php echo $travel_allowance; ?>">
+                                        </div>
+                                    </td>
+
+                                    <td><p style=" margin-top: -5px;padding-left: 4%;">Conveyance Allowance</p></td>
+                                    <td> 
+                                        <div class="form-group">                                
+                                            <input type="text" class="form-control" id="conveyance" name="conveyance" value="<?php echo $Conveyance_allowance; ?>">
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr class="margin5">
+                                    <td><p style=" margin-top: -5px;">House Rent Allowance</p></td>
+                                    <td> 
+                                        <div class="form-group">                                
+                                            <input type="text" class="form-control" id="renthouse" name="renthouse" value="<?php echo $House_rent_allowance; ?>">
+                                        </div>
+                                    </td>
+
+                                    <td><p style=" margin-top: -5px;padding-left: 4%;">Medical Allowance</p></td>
+                                    <td> 
+                                        <div class="form-group">                                
+                                            <input type="text" class="form-control" id="medical" name="medical" value="<?php echo $Medical_allowance; ?>">
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <div class="bg-white shadow" style="width: 100%;" >
+                            <nav class="horizontal-menu compact">
+                                <ul>
+                                    <li >
+                                        <a class="fg-blue" href="#"><i class=" fg-blue"></i>&nbsp;Deductions</a>
+                                    </li> 
+<!--                                    <li>
+                                        <a class="" href="#" onclick="getPage('authorized/HR/deduction.php')"><i class=" fg-blue"></i>&nbsp;Deductions</a>
+                                    </li> -->
+                                </ul>
+                            </nav>
+                        </div>
+                                                        <table>
+                                <tr class="margin5">
+                                    <td><p style=" margin-top: -5px;">Basic Salary</p></td>
+                                    <td> 
+                                        <div class="form-group">                                
+                                            <input type="text" readonly="" class="form-control" value="<?php echo $salary; ?>" id="basic_salary2" name="basic_salary2" >
+                                        </div>
+                                    </td>
+
+                                    <td><p style=" margin-top: -5px;padding-left: 4%;">Deduction</p></td>
+                                    <td> 
+                                        <div class="form-group">                                
+                                            <input type="text" class="form-control" value="<?php echo $deduction;?>" id="deductiond" name="deductiond" >
+                                        </div>
+                       
+                                    </td>
+
+                                </tr>
+                                                            
+                            </table>
+                            <div class="form-group">
+                                <label for="comment">Reason(s):</label>
+                                <textarea class="form-control" rows="5" id="reasons_reduct" value="<?php  echo $reasons_reduct;?>" name="reasons_reduct"></textarea>
+                                  </div>
+                            <input type="button" class="button primary" value ="Update" onclick="PostData()" />
+                           
+
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---------------------end window------------------>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------model linces------------------------------------------------------->
+<!-- Modal -->
+<div id="myModaluploadpic" class="modal fade" role="dialog" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: transparent">
+            <!-------------------create window's---------------->
+            <div class="window">
+                <div class="caption">
+                    <span class="icon icon-windows"></span> 
+                    <div class="title">Change Images</div> 
+
+                    <button class="btn-close close"  data-dismiss="modal"></button>
+                </div>
+                <div class="content">
+                    <div class="" style=" height: 250px;">
+                        <div class="bgColor">
+                            <form id="uploadForm" action="authorized/HR/uploadimages.php" method="post">
+                                <div id="targetLayer">No Image</div>
+                                <div id="uploadFormLayer">
+                                    <label>Upload Image File:</label><br/>
+                                    <input name="userImage" type="file" class="inputFile" />
+                                    <input type="submit" value="Submit" class="btnSubmit" />
+                            
+                        </div>
+                                </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---------------------end window------------------>
+    </div>
+</div>
+</div>
+
+<!-----------------------------------educations---------------------->
+<!-- Modal -->
+<div id="myModaleducation" class="modal fade" role="dialog" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: transparent">
+            <!-------------------create window's---------------->
+            <div class="window">
+                <div class="caption">
+                    <span class="icon icon-windows"></span> 
+                    <div class="title">Update Education</div> 
+
+                    <button class="btn-close close"  data-dismiss="modal"></button>
+                </div>
+                <div class="content">
+                    <div class="margin10">
+                     <div id="notifing">
+                        
+                    </div>
+                        
+                        <form id="uploadeducation" action="authorized/HR/education.php" method="post">
+                            <div class="form-group">
+                                <label for="name">Employee Name:</label>
+                                <input disabled="" type="text"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
+                                <input  type="hidden" class="form-control" value="<?php echo $emp_file_no; ?>" id="employee_no" name="employee_no">
+                            </div>
+                            <div class="form-group">
+                                <label for="education">Education:</label>
+                                <input type="text" class="form-control" id="education" name="education" id="education">
+                            </div>
+                             <div class="form-group">
+                                <label for="education">School/college/University:</label>
+                                <input type="text" class="form-control" id="education" name="collg" id="collg">
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>
+                                         <label for="education">Start Year:</label>
+                                          <input type="text" class="form-control" id="education" name="start" id="start">
+                                    </td>
+                                    <td>
+                                         <label for="education">Finish Year:</label>
+                                <input type="text" class="form-control" id="education" name="fnish" id="fnish">
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="submit"  value="Submit Data"/>    
+                            
+                        </form>
+                        <div id="delete">
+                           
+                        </div>
+                                                <div class="">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left"></th>
+                                        <th class="text-left">Education</th>  
+                                        <th class="text-left">College/School</th>
+                                        <th class="text-left">Start Date</th>  
+                                        <th class="text-left">Finish Date</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <?php
+                                    $select_asset = mysql_query("SELECT * FROM tbl_education WHERE employe_no='$emp_file_no'") or die(mysql_error());
+                                    while ($roww = mysql_fetch_array($select_asset)) {
+                                        $edu_id = $roww['edu_id'];
+                                        $education= $roww['education'];
+                                        $finish_date= $roww['finish_date'];
+                                        $start_date= $roww['start_date'];
+                                        $school_university_college = $roww['school_university_college'];
+                                        ?>
+                                        <tr>
+                                            <td><input type="checkbox" name="" value="<?php echo $edu_id; ?>" onchange="showaction(this.value)"></td>
+                                            <td class="right"><?php echo $education; ?></td>
+                                            <td class="right"><?php echo $school_university_college; ?></td>
+                                            <td class="right"><?php echo $start_date; ?></td>
+                                            <td class="right"><?php echo $finish_date; ?></td>
+                                        </tr> 
+                                        <?php
+                                    }
+                                    ?>
+                                </tbody>
+
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---------------------end window------------------>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------model linces------------------------------------------------------->
+
+<!---------------------------------end education--------------------->
+
+<!-----------------------------------educations---------------------->
