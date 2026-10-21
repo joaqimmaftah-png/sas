@@ -19,11 +19,11 @@ if (!function_exists('sas_env')) {
     }
 }
 
-$mysql_hostname = sas_env('SAS_DB_HOST', 'sql301.yzz.me');
+$mysql_hostname = sas_env('SAS_DB_HOST', 'localhost');
 $mysql_port     = sas_env('SAS_DB_PORT', '');            // leave empty for default 3306
-$mysql_user     = sas_env('SAS_DB_USER', 'yzzme_42295087');
-$mysql_password = sas_env('SAS_DB_PASS', 'YAS2sWjtziIG');
-$mysql_database = sas_env('SAS_DB_NAME', 'yzzme_42295087_sas');
+$mysql_user     = sas_env('SAS_DB_USER', 'root');
+$mysql_password = sas_env('SAS_DB_PASS', '');
+$mysql_database = sas_env('SAS_DB_NAME', 'daima12_sincro');
 
 $sas_timezone   = sas_env('SAS_TIMEZONE', 'Africa/Nairobi');
 
