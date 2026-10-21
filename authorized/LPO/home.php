@@ -53,7 +53,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
                 
                     $vatt=$row['VAT'];
                     
-                    $JUMLA = $subtotal +($subtotal * ($vatt/100));
+                    $JUMLA = lpo_num($subtotal) +(lpo_num($subtotal) * (lpo_num($vatt)/100));
                 
 
                 ///////////////////////////////////////////
@@ -71,7 +71,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
                     <td><?php echo $Quotation_name?></td>
                     <td><a href="?action=po_form&item=<?php echo $item;?>"><?php echo $customer_name; ?></a></td>
                     <td><?php echo $date; ?></td>
-                    <td><a href="?action=po_form&item=<?php echo $item;?>"><?php echo number_format($JUMLA, 2); ?></a></td>
+                    <td><a href="?action=po_form&item=<?php echo $item;?>"><?php echo number_format(lpo_num($JUMLA), 2); ?></a></td>
                     <td><a href="?action=po_form&item=<?php echo $item;?>"><?php echo $currency; ?></a></td>
                     <td><?php echo $checked_status;?></td>
                     <td><?php echo $Approved_status;?></td>

@@ -31,7 +31,7 @@ if(isset($_POST['reject'])){
                 $sumitem=  mysql_query("SELECT SUM(subtotal) FROM  tbl_items where item='$items'") or die(mysql_error());
                     $total=  mysql_fetch_array($sumitem);
                     $subtotal=$total['SUM(subtotal)'];
-                    $paddedNum = number_format($subtotal, 2);
+                    $paddedNum = number_format(lpo_num($subtotal), 2);
                     $VAT=$subtotal*0.18;
                     $JUMLA=$subtotal+$VAT;
                     $date=date('y');
@@ -98,9 +98,9 @@ if(isset($_POST['reject'])){
                 ?>
 										<tr>
                                                                                     <td class="product"><?php echo $description;?></td>
-											<td class="price text-right"><?php echo number_format($unit_price,2);?></td>
+											<td class="price text-right"><?php echo number_format(lpo_num($unit_price),2);?></td>
 											<td class="quantity text-right"><?php echo $quantity;?></td>
-											<td class="amount text-right"><?php echo number_format($subtotal,2);?></td>
+											<td class="amount text-right"><?php echo number_format(lpo_num($subtotal),2);?></td>
 										</tr>
                 <?php }?>
 										
@@ -112,12 +112,12 @@ if(isset($_POST['reject'])){
 										<tr>
 											<td class="total-quantity"></td>
 											<td class="price text-right" colspan="2">VAT(18%)</td>
-											<td class="amount text-right"><?php echo number_format($VAT,2);?></td>
+											<td class="amount text-right"><?php echo number_format(lpo_num($VAT),2);?></td>
 										</tr>
                                                                                 <tr>
 											<td class="total-quantity" ></td>
 											<td class="price text-right" colspan="2">TOTAL</td>
-                                                                                        <td class="amount text-right"><?php echo number_format($JUMLA,2);?></td>
+                                                                                        <td class="amount text-right"><?php echo number_format(lpo_num($JUMLA),2);?></td>
 										</tr>
 										
 									</tbody>

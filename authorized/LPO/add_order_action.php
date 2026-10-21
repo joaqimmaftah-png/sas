@@ -44,7 +44,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
             . "VALUE('','','$paddedNum','','$cust_id','$tareh')") or die(mysql_error());
                 //////////////////////////////////////////////////////////
                          for ($i = 0; $i < sizeof($descr); $i++) {
-                             $subtotal=$quantity[$i]*$amount[$i];
+                             $subtotal=lpo_num($quantity[$i])*lpo_num($amount[$i]);
                         $insert = mysql_query("INSERT INTO tbl_items(`description`,`quantity`,units,`unit_price`,`subtotal`,`item`)"
                                 . "values('$descr[$i]','$quantity[$i]','$units[$i]','$amount[$i]','$subtotal','$paddedNum')") or die(mysql_error());
                     }

@@ -49,7 +49,7 @@ if(isset($_POST['add_update'])){
                              $itemz=$item_id[$i];
                              
                              
-                        $subtotal=$quantity[$i]*$amount[$i];
+                        $subtotal=lpo_num($quantity[$i])*lpo_num($amount[$i]);
  
                         $selectitemid=mysql_query("SELECT * FROM tbl_items WHERE item_id='$itemz' AND `item`='$items'") or die(mysql_error());
                         $ts= mysql_num_rows($selectitemid);
@@ -192,7 +192,7 @@ $linkj='';
                     $order_number=$onesha['order_number'];
                     $vatt=$onesha['VAT'];
                     $subtotal = $total['SUM(subtotal)'];
-                    $paddedNum = number_format($subtotal, 2);
+                    $paddedNum = number_format(lpo_num($subtotal), 2);
                     
                     $date = date('y');
                     
@@ -213,8 +213,8 @@ $linkj='';
                      $disc=  mysql_fetch_array($calcdiscount);
                      $amount=$disc['amount'];
                      $percent=$disc['percent'];
-                     $discountprcent=$subtotal-$amount;
-                     $VAT = $discountprcent * ($vatt/100);
+                     $discountprcent=lpo_num($subtotal)-lpo_num($amount);
+                     $VAT = $discountprcent * (lpo_num($vatt)/100);
                      $JUMLA = $discountprcent + $VAT;
                     
 
@@ -361,7 +361,7 @@ $linkj='';
                                             </td>
                                             
                                              <td style="width:15%">
-                                                <input name="amount[]" value="<?php echo number_format($unit_price, 2); ?>" id="buying_price" class="form-control amount editable" placeholder=""  aria-describedby="sizing-addon1" type="text">
+                                                <input name="amount[]" value="<?php echo number_format(lpo_num($unit_price), 2); ?>" id="buying_price" class="form-control amount editable" placeholder=""  aria-describedby="sizing-addon1" type="text">
                                             </td>
                                              <td style="width:15%">
                                                 <input name="units[]" value="<?php echo $units; ?>" id="buying_price" class="form-control amount editable" placeholder=""  aria-describedby="sizing-addon1" type="text">

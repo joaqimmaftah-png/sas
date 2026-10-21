@@ -138,7 +138,7 @@ else{}
                          <a href=""><?php echo $paid_to; ?></a>
                      </td>
                     <td> <a href=""><?php echo 'SSWL PV '.$voucher_no; ?></a></td> 
-                    <td><a href=""><?php echo number_format($subtotal, 2); ?></a></td>
+                    <td><a href=""><?php echo number_format(lpo_num($subtotal), 2); ?></a></td>
                     <td><a href=""><?php echo $currency; ?></a></td>
                     <td><?php echo $created_date;?></td>
                     <td> <a href="?action=view_voucher&voucher_id=<?php echo $voucher_no;?>">View</a> | 

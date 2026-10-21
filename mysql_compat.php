@@ -337,3 +337,20 @@ if (!function_exists('mysql_list_fields')) {
         return @mysqli_query($link, "SELECT * FROM `$database`.`$table` LIMIT 0");
     }
 }
+
+
+/**
+ * PHP 8 helper: old PHP 5 silently treated '' / NULL / "1,200.50" as numbers in
+ * arithmetic and number_format(). PHP 8 throws a TypeError (blank page when
+ * error_reporting(0)). lpo_num() converts any DB/user value to a safe float.
+ */
+if (!function_exists('lpo_num')) {
+    function lpo_num($v)
+    {
+        if (is_int($v) || is_float($v)) {
+            return (float) $v;
+        }
+        $v = str_replace([',', ' '], '', (string) $v);
+        return is_numeric($v) ? (float) $v : 0.0;
+    }
+}

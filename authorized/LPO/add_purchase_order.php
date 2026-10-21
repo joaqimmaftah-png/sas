@@ -111,7 +111,7 @@ if(isset($_POST['add_data'])){
             . "VALUE('$prepairedby','$paddedNum','$tit','$cust_id','$tareh','$order_no','$vat','$currency','$company','$invoice_number','$project_number','$order_id_gen')") or die(mysql_error());
                 //////////////////////////////////////////////////////////
                          for ($i = 0; $i < sizeof($descr); $i++) {
-                             $subtotal=$quantity[$i]*$amount[$i];
+                             $subtotal=lpo_num($quantity[$i])*lpo_num($amount[$i]);
                         $insert = mysql_query("INSERT INTO tbl_items(`description`,`quantity`,units,`unit_price`,`subtotal`,`item`,`currency`,`Person/Site`)"
                                 . "values('$descr[$i]','$quantity[$i]','$units[$i]','$amount[$i]','$subtotal','$paddedNum','$currency','$person[$i]')") or die(mysql_error());
                     }

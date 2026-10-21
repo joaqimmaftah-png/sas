@@ -122,14 +122,14 @@ if (isset($_POST['approve'])) {
                 <tr>
                      <td class="product"><?php echo $jj++; ?></td>
                      <td class="quantity"><?php echo $row['description']; ?></td> 
-                    <td class="price text-right"><?php echo number_format($row['amount'], 2); ?></td>                                      
+                    <td class="price text-right"><?php echo number_format(lpo_num($row['amount']), 2); ?></td>                                      
                 
                 </tr>
 <?php  } ?>
             <tr>
 <!--                <td class="total-quantity" ></td>-->
                 <td class="price text-right" colspan="2">Total Amount</td>
-                <td class="amount text-right"><?php echo number_format($totalsum, 2); ?></td>
+                <td class="amount text-right"><?php echo number_format(lpo_num($totalsum), 2); ?></td>
             </tr>
 
         </tbody>

@@ -2,8 +2,8 @@
 <?php
 require_once __DIR__ . '/mysql_compat.php';
 
-include "DBConfig.php";
-$conn = new mysqli($HostName, $HostUser, $HostPass, $DatabaseName);
+require __DIR__ . '/db_config.php';
+$conn = new mysqli($mysql_hostname, $mysql_user, $mysql_password, $mysql_database, $mysql_port !== '' ? (int) $mysql_port : 3306);
 
 if ($conn->connect_error) {
  

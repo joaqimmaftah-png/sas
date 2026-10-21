@@ -7,14 +7,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$mysql_hostname = "localhost";
-$mysql_user = "root";
-$mysql_password = "";
-$mysql_database = "tbl_sincro";
-$bd = mysql_connect($mysql_hostname, $mysql_user, $mysql_password)
-        or die("No database selected");
-mysql_select_db($mysql_database, $bd) or die("Opps some thing went wrong");
-date_default_timezone_set("Africa/Nairobi");
+require_once __DIR__ . '/../../db.php';
     $gtu=mysql_query("SELECT DISTINCT(tech_name) FROM tbl_site_db") or die(mysql_error());
             while ($ab = mysql_fetch_array($gtu)) {
                 $tech_name=$ab['tech_name'];

@@ -25,7 +25,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
                     $order_number=$onesha['order_number'];
                     $vatt=$onesha['VAT'];
                     $subtotal = $total['SUM(subtotal)'];
-                    $paddedNum = number_format($subtotal, 2);
+                    $paddedNum = number_format(lpo_num($subtotal), 2);
                     
                     $date = date('y');                  
                      
@@ -33,8 +33,8 @@ require_once __DIR__ . '/../../mysql_compat.php';
                      $disc=  mysql_fetch_array($calcdiscount);
                      $amount=$disc['amount'];
                      $percent=$disc['percent'];
-                     $discountprcent=$subtotal-$amount;
-                     $VAT = $discountprcent * ($vatt/100);
+                     $discountprcent=lpo_num($subtotal)-lpo_num($amount);
+                     $VAT = $discountprcent * (lpo_num($vatt)/100);
                     $JUMLA = $discountprcent + $VAT;
                     
                      
@@ -95,8 +95,8 @@ require_once __DIR__ . '/../../mysql_compat.php';
                     <td class="product"><?php echo $description; ?></td>
                      <td class="quantity"><?php echo $units; ?></td>
                      <td class="quantity"><?php echo $quantity; ?></td> 
-                    <td class="price text-right"><?php echo number_format($unit_price, 2); ?></td>                                      
-                    <td class="amount text-right"><?php echo number_format($subtotal, 2); ?></td>
+                    <td class="price text-right"><?php echo number_format(lpo_num($unit_price), 2); ?></td>                                      
+                    <td class="amount text-right"><?php echo number_format(lpo_num($subtotal), 2); ?></td>
                     <td class="quantity"><?php echo $person; ?></td>
                 </tr>
 <?php } ?>
@@ -110,18 +110,18 @@ require_once __DIR__ . '/../../mysql_compat.php';
                                  <tr>                    
 <!--                <td class="total-quantity"></td>-->
                      <td class="price text-right" colspan="5">Discount(<?php echo $percent.'%';?>)</td>
-                <td class="amount text-right"><?php echo number_format($amount, 2); ?></td>
+                <td class="amount text-right"><?php echo number_format(lpo_num($amount), 2); ?></td>
             </tr>
             <tr>
 <!--                <td class="total-quantity"></td>-->
                 <td class="price text-right" colspan="5">Add Tax (18%VAT)</td>
-                <td class="amount text-right"><?php echo number_format($VAT, 2); ?></td>
+                <td class="amount text-right"><?php echo number_format(lpo_num($VAT), 2); ?></td>
             </tr>
 
             <tr>
 <!--                <td class="total-quantity" ></td>-->
                 <td class="price text-right" colspan="5">Total Amount</td>
-                <td class="amount text-right"><?php echo number_format($JUMLA, 2); ?></td>
+                <td class="amount text-right"><?php echo number_format(lpo_num($JUMLA), 2); ?></td>
             </tr>
 
       </tbody>
