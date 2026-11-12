@@ -32,6 +32,15 @@ if (!defined('SAS_DB_HOST')) {
     define('SAS_DB_NAME', sas_env('SAS_DB_NAME', 'daima12_sincro'));
     define('SAS_TIMEZONE', sas_env('SAS_TIMEZONE', 'Africa/Nairobi'));
 
+    // Annual leave allowance per employee, per calendar year (days).
+    // Only leave types whose name contains "annual" are limited by this value;
+    // every other leave type is unrestricted.
+    define('SAS_ANNUAL_LEAVE_DAYS', (int) sas_env('SAS_ANNUAL_LEAVE_DAYS', 28));
+
+    // Leave types whose NAME contains this word count as annual leave (the only
+    // limited type). Rename the type in tbl_leave_type or change this keyword.
+    define('SAS_ANNUAL_LEAVE_KEYWORD', sas_env('SAS_ANNUAL_LEAVE_KEYWORD', 'annual'));
+
     // Set to true (or SAS_DEBUG=1) to show PHP errors on screen while fixing problems.
     // Keep false in production: errors are then hidden (blank page instead of a message).
     define('SAS_DEBUG', in_array(strtolower((string) sas_env('SAS_DEBUG', '0')), ['1', 'true', 'yes', 'on'], true));

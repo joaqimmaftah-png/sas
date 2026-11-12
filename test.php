@@ -1022,6 +1022,7 @@ while ($roww = mysql_fetch_array($select_asset)) {
                 <div class="content">
                     <div class="margin10">                       
                         <form id="applyleave" action="authorized/usersystem/add_leave_request.php"  method="post">
+                        <?php include __DIR__ . '/authorized/usersystem/leave_form_rules.php'; ?>
                             <table>
                                 <tr>
                                     <td>
