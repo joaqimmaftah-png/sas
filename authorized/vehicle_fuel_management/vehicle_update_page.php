@@ -2,7 +2,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 $vehicle_id = $_GET['q'];
 $c = mysql_query("SELECT * FROM tbl_fuel_vehicles WHERE vehicle_id='$vehicle_id'") or die(mysql_error());
 $d = mysql_fetch_array($c);

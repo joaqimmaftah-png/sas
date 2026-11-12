@@ -30,7 +30,7 @@ require_once __DIR__ . '/mysql_compat.php';
 
 
 <?php
-include '../db.php';
+require_once __DIR__ . '/db.php';
 $selected_car=  mysql_query("SELECT * FROM tbl_car_informations WHERE car_info_id='".$_GET['q']."'") OR die(mysql_error());
 $row=  mysql_fetch_array($selected_car);
 $vehicle_reg_num=$row['vehicle_reg_num'];

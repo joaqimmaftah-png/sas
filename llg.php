@@ -1,17 +1,7 @@
 
 <?php
-require_once __DIR__ . '/mysql_compat.php';
-
-require __DIR__ . '/db_config.php';
-$conn = new mysqli($mysql_hostname, $mysql_user, $mysql_password, $mysql_database, $mysql_port !== '' ? (int) $mysql_port : 3306);
-
-if ($conn->connect_error) {
- 
- die("Connection failed: " . $conn->connect_error);
-} 
-
-
-
+// Single shared connection - see db.php / db_config.php
+require_once __DIR__ . '/db.php';
 
 ?>
 <!DOCTYPE html>
@@ -92,12 +82,12 @@ if ($conn->connect_error) {
                                     <option value="">Select Site Name</option>
                                      <?php
 $sql = "SELECT * FROM tbl_class_a_site";
-foreach ($conn->query($sql) as $row) {
+$sites = mysql_query($sql) or die(mysql_error());
+while ($row = mysql_fetch_array($sites)) {
     ?>
                                         <option value="<?php echo $row['s_id']; ?>"><?php echo $row['sitename'];?></option>
     <?php
 }
-$conn->close();
 ?>
                                 </select>
                             </div>

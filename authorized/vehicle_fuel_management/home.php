@@ -149,7 +149,7 @@ $message = "";
 
         <tbody>
             <?php
-            include 'authorized/db.php';
+            require_once __DIR__ . '/../../db.php';
             $a=mysql_query("SELECT * FROM tbl_fuel_vehicles")or die(mysql_error());
             while ($b = mysql_fetch_array($a)) {
              $vehicle_reg_num=$b['vehicle_reg_num'];          

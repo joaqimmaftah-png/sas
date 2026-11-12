@@ -3,6 +3,7 @@
                                 <ul>
                                     <li>
                                         <a  href="#" onclick="getdelete('authorized/HR/delete_education.php?deleteit=<?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
  echo $_GET['q'];?>')"><i class="icon-cancel  fg-blue"></i>&nbsp;Delete</a>
                                     </li>
@@ -37,7 +38,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
 </head>
 
 <?php
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
  $internal = mysql_query("SELECT * FROM tbl_internal_employment WHERE internal_id='".$_GET['internal']."'") or die(mysql_error());
                                               $ee = mysql_fetch_array($internal);
 //                                                    $internal_id = $ee['internal_id'];

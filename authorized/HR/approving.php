@@ -1,7 +1,8 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
 //   $desc=$_POST['description'];
    $u = mysql_query("UPDATE tbl_leaves SET hrm_status='Approved' WHERE leave_id='".$_POST['leave_id']."'") or die(mysql_error());
         $select_asset = mysql_query("SELECT * FROM tbl_leaves WHERE leave_id='".$_POST['leave_id']."'") or die(mysql_error());

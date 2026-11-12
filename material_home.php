@@ -3,7 +3,7 @@
 require_once __DIR__ . '/mysql_compat.php';
 
 @session_start();
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 if (!isset($_SESSION['usertype'])) {
     header("location:index.php"); 
 }  else {

@@ -34,7 +34,7 @@
         <?php
 require_once __DIR__ . '/mysql_compat.php';
 
-          include 'authorized/db.php';
+          require_once __DIR__ . '/db.php';
 $gtt=mysql_query("SELECT DISTINCT(Responsible) FROM tbl_action_list WHERE reportdate>20181030 ORDER BY Responsible") or die(mysql_error());
                       $today=date("Ymd");
                       $j=1;

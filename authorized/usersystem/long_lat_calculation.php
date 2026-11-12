@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 $long=$_POST['longitude'];
 $lat=$_POST['latitude'];
 $techcian=$_POST['techcian'];

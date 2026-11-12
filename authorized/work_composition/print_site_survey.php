@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
  
 $pid=$_GET['id'];
@@ -236,12 +237,12 @@ while($dgxu=mysql_fetch_array($descu)){
                  
                  <tr> <th>Id</th> <th>Description</th> <th>Part Number</th> <th>Unit</th> <th>Quantity</th></tr>
                               <?php
-                              $bd=1;
+                              $row_no=1;
                  $descup=mysql_query("SELECT * FROM survey_invoice_instruction WHERE site_id='$pid'") OR die(mysql_error());
 while($dgxup=mysql_fetch_array($descup)){
     ?>
                  <tr> 
-                 <td><?php echo $bd++;?></td> 
+                 <td><?php echo $row_no++;?></td> 
                      <td><?php echo $dgxup['item'];?></td>                                         
                      <td><?php echo $dgxup['partnumber'];?></td> 
                      <td><?php echo $dgxup['unit'];?></td> 

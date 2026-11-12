@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
 
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
 $category=$_POST['category'];
 $b=mysql_query("INSERT INTO tbl_leave_type(leave_type) VALUE('$category')") or die(mysql_error());
 if($b){

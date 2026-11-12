@@ -1,7 +1,8 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
 $employee_id=$_POST['employee_id'];
 $salary=$_POST['basic_salary'];
 $dearness=$_POST['dearness'];

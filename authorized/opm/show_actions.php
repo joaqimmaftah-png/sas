@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once 'authorized/db.php';
+require_once __DIR__ . '/../../db.php';
 $mimi=$_SESSION["emp_file_no"];
 $med='';
       
@@ -32,7 +32,7 @@ $med='';
         </thead>
         <tbody>
             <?php
-            include_once 'authorized/db.php';
+            require_once __DIR__ . '/../../db.php';
             
             $pur=mysql_query("SELECT * FROM tbl_action_list where Responsible='$mimi'") or die(mysql_error());
             $j=1;

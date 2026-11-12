@@ -13,6 +13,7 @@
                 <span class="input-group-addon" id="sizing-addon1" style="width:30%; text-align:right"><span class="text-right">Custodian:</span></span>
                 <select class="form-control"  id="kind_id" name="employeename">
                     <option value="<?php
+require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../mysql_compat.php';
  echo $employe_no; ?>" ><?php echo $jina; ?></option>
 <?php

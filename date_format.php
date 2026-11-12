@@ -26,7 +26,7 @@
         <?php
 require_once __DIR__ . '/mysql_compat.php';
 
-          include 'authorized/db.php';
+          require_once __DIR__ . '/db.php';
 $gtt=mysql_query("SELECT * FROM format_date") or die(mysql_error());
                       
                       $j=1;

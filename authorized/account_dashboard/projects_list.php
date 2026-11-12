@@ -27,7 +27,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
 
             
             $i=1;
-            include_once 'authorized/db_project.php';  
+            require_once __DIR__ . '/../../db.php';  
             
             $project = mysql_query("SELECT * FROM projects") or die(mysql_error());
             while ($row = mysql_fetch_array($project)) {

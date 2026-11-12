@@ -8,7 +8,7 @@ if(isset($_GET['leave_id'])){
 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 <strong> Successful Approved!..</strong> 
 </div>';
-    include 'authorized/db.php';
+    require_once __DIR__ . '/db.php';
     $leave_id=$_GET['leave_id'];
     $status="Approved";
     $update=mysql_query("UPDATE tbl_leaves SET hod_status='$status' WHERE leave_id='$leave_id'") or die(mysql_error());

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 $select_from_service=mysql_query("SELECT * FROM tbl_car_services_history  ORDER BY services_hostory_id DESC") or die(mysql_error());
 // get data and store in a json array
 while ($row1=  mysql_fetch_array($select_from_service)) {

@@ -11,6 +11,7 @@
                                         <select class="form-control"  id="kind_id" name="employeename">
                                             <option value="" >----Custodian---</option>
 <?php
+require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../mysql_compat.php';
 
 $department_id = $positions['department_id'];

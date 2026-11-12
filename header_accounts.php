@@ -2,7 +2,7 @@
 require_once __DIR__ . '/mysql_compat.php';
 
 session_start();
-include_once 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $employeno= $_SESSION["emp_file_no"];
 $jinayetu= mysql_query("SELECT * from tbl_user_accounts where emp_file_no='$employeno'") or die(mysql_error());
 $show = mysql_fetch_array($jinayetu);

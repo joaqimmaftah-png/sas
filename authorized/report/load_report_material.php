@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 
 
 $show_driver = mysql_query("SELECT * FROM request_item_list ORDER BY request_id DESC") or die(mysql_error());

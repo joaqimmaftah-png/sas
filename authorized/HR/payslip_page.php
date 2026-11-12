@@ -36,6 +36,7 @@
     <option>May</option>
     <option>Apr</option>
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 for ($i = -11; $i <=0; $i++) {

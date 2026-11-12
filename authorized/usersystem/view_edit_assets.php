@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 $asset_iddd = $_GET['asset_id'];
 
 $explore=  explode('_',$asset_iddd);

@@ -26,7 +26,7 @@ require_once __DIR__ . '/mysql_compat.php';
          * and open the template in the editor.
          */
         $workdays = array();
-        include 'authorized/db.php';
+        require_once __DIR__ . '/db.php';
         $datez = '20190901';
         $date_end = '20190930';
         $month = date('m');

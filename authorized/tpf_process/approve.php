@@ -1,7 +1,7 @@
 ﻿<?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 $Quotation_No=$_GET['qn_coding'];
 $bb = mysql_query("SELECT * FROM  tbl_tpf_qt WHERE Quotation_No='$Quotation_No'")or die(mysql_error());
 $cc=mysql_fetch_array($bb);

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/mysql_compat.php';
 
-include_once 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $query = mysql_query("SELECT department_name,office_phone_number FROM tbl_department") or die("cannot select");
 $username_array = array(); // start an array
 $number_array=array();

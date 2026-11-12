@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 $message = "";
 if(isset($_POST['edit_employee'])){
-    include_once __DIR__ . '/../db.php';
+    include_once __DIR__ . '/../../db.php';
     $employee_no = $_POST['employee_no'];
     $fname = $_POST['fname'];
     $mname = $_POST['mname'];
@@ -27,7 +28,7 @@ if(isset($_POST['edit_employee'])){
     }  
 }
 if(isset($_POST['contacts'])){
-    include_once __DIR__ . '/../db.php';
+    include_once __DIR__ . '/../../db.php';
      $email = $_POST['email'];
      $email2 = $_POST['email2'];
     $phone = $_POST['phone'];
@@ -45,7 +46,7 @@ if(isset($_POST['contacts'])){
      }
 }
 if(isset($_POST['payroll'])){
-    include_once __DIR__ . '/../db.php';
+    include_once __DIR__ . '/../../db.php';
 $employee_no = $_POST['employee_no'];
 $salary = $_POST['basic_salary'];
 $dearness = $_POST['dearness'];
@@ -62,7 +63,7 @@ $medical = $_POST['medical'];
         }
 }
 if(isset($_POST['employement'])){
-     include_once __DIR__ . '/../db.php';    
+     include_once __DIR__ . '/../../db.php';    
      $position = $_POST['position'];
     $department = $_POST['department'];
      $sdate = $_POST['sdate'];

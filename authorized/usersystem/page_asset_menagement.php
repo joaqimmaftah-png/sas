@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 //$employeename=$_POST['employeename'];
 //$department_id= $_POST['department_id'];
 //$registerid= $_POST['registerid'];

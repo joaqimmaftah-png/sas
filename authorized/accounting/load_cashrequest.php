@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
 
 $date1=date('Ym01');
 $date1=date('Ym');
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 
 $fromm=$_GET['from'];
 $too=$_GET['to'];

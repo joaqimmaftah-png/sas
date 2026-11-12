@@ -1,7 +1,8 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-    include_once __DIR__ . '/../db.php';
+    include_once __DIR__ . '/../../db.php';
      $email = $_POST['email'];
      $email2 = $_POST['email2'];
     $phone = $_POST['phone'];

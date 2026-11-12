@@ -33,9 +33,10 @@
 
         <tbody>
             <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-            include_once __DIR__ . '/../db.php';
+            include_once __DIR__ . '/../../db.php';
             $show = "SELECT * FROM tbl_employee";
             $display = mysql_query($show) or die(mysql_error());
             while ($row = mysql_fetch_array($display)) {

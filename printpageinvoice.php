@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/mysql_compat.php';
 
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $Iprin=$_GET['Iprint'];
 
 $sel= mysql_query("SELECT * FROM `tblinvoice` WHERE Invoice_id='$Iprin'")or die(mysql_error());

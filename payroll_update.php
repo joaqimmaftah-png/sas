@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/mysql_compat.php';
 
-include '../db.php';
+require_once __DIR__ . '/db.php';
                 $a= mysql_query("select * from tbl_accounts")or die(mysql_error());
                 
                 

@@ -15,7 +15,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
         $q =$_GET['q'];
-        include_once '../db.php';
+        require_once __DIR__ . '/../../db.php';
         $show_site=  mysql_query("SELECT * from  tbl_car_monitoring where vehicle_reg_num LIKE  '$q%'") or die(mysql_error());
         while($row = mysql_fetch_array($show_site)) {
         $vehicle_reg_num=$row['vehicle_reg_num'];

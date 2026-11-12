@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 
 //get data and store in a json array
 $u=1;

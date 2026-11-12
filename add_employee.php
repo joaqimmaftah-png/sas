@@ -3,7 +3,7 @@ require_once __DIR__ . '/mysql_compat.php';
 
 $message = "";
 if (isset($_POST['SubmitData'])) {
-    include 'authorized/db.php';
+    require_once __DIR__ . '/db.php';
     $employ_id = $_POST['employ_id'];
     $fname = $_POST['fname'];
     $mname = $_POST['mname'];
@@ -385,7 +385,7 @@ if (isset($_POST['SubmitData'])) {
                             <select name="job">
                                 <option value="">---select-----</option>
                                 <?php
-                                include 'authorized/db.php';
+                                require_once __DIR__ . '/db.php';
                                 $SELECT = "SELECT * FROM tbl_title";
                                 $mimi = mysql_query($SELECT) or die(mysql_error());
                                 while ($row = mysql_fetch_array($mimi)) {
@@ -545,7 +545,7 @@ if (isset($_POST['SubmitData'])) {
                         <div class="input-control select" data-role="input-control">
                             <select name="department">
                                 <?php
-                                include 'authorized/db.php';
+                                require_once __DIR__ . '/db.php';
                                 $SELECT = "SELECT * FROM tbl_department";
                                 $mimi1 = mysql_query($SELECT) or die(mysql_error());
                                 while ($row = mysql_fetch_array($mimi1)) {
@@ -569,7 +569,7 @@ if (isset($_POST['SubmitData'])) {
                         <div class="input-control select" data-role="input-control">
                             <select name="position">
                                 <?php
-                                include 'authorized/db.php';
+                                require_once __DIR__ . '/db.php';
                                 $SELECT = "SELECT * FROM tbl_position";
                                 $mimi = mysql_query($SELECT) or die(mysql_error());
                                 while ($row = mysql_fetch_array($mimi)) {

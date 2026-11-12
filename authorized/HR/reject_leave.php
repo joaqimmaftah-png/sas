@@ -1,8 +1,9 @@
 
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
                 $select_asset = mysql_query("SELECT * FROM tbl_leaves WHERE leave_id='".$_GET['leave_id']."'") or die(mysql_error());
                $roww = mysql_fetch_array($select_asset);
                 $leave_type = $roww['leave_type'];

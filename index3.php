@@ -1,6 +1,6 @@
 if(isset($_POST['login'])) {
 
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $emp=$_POST['emp'];
 $password1=$_POST['password'];
 $password=md5($password1);

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 
 $fname=$_POST['fname'];
 $m_name=$_POST['m_name'];

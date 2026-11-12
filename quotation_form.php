@@ -82,7 +82,7 @@
 <?php
 require_once __DIR__ . '/mysql_compat.php';
 
-include_once 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $quotations=  mysql_query("SELECT * from tbl_accounts_quotation where quotation_id='SSW72371'") or die(mysql_error());
 $row1 = mysql_fetch_array($quotations);
     $clients_card=$row1['clients_card'];

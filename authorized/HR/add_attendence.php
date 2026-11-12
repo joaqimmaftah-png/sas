@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
 if(!empty($_POST['timein']) AND !empty($_POST['timeout']) AND !empty($_POST['emp_file_no']) AND !empty($_POST['emp_file_no'])  ){
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
     $emp_file_no = $_POST['emp_file_no'];
     $current_date = $_POST['cdate'];
     $time_cof = "09";
@@ -78,7 +79,7 @@ else {
 
                                 <tbody>
                                     <?php
-                                    include_once __DIR__ . '/../db.php';
+                                    include_once __DIR__ . '/../../db.php';
                                     $select_asset = mysql_query("SELECT * FROM tbl_attendence") or die(mysql_error());
                                     while ($roww = mysql_fetch_array($select_asset)) {
                                         $emp_file_no = $roww['emp_file_no'];

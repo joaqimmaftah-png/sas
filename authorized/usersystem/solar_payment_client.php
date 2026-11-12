@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 $paymentid=$_GET['paymentid'];
 $select_user = mysql_query("SELECT * FROM tbl_solar_clients WHERE client_id='$paymentid'") or die(mysql_error());
 $mns = mysql_fetch_array($select_user);

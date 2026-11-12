@@ -89,7 +89,7 @@ if (isset($_GET['action'])) {
 
         <tbody>
             <?php
-            include 'authorized/db.php';
+            require_once __DIR__ . '/db.php';
             $show = "SELECT * FROM tbl_employee";
             $display = mysql_query($show) or die(mysql_error());
             while ($row = mysql_fetch_array($display)) {
@@ -176,7 +176,7 @@ if (isset($_GET['action'])) {
 <!--model linces-->
 <?php
 if(isset($_POST['employee_excell'])){
-    include_once 'authorized/db.php';
+    require_once __DIR__ . '/db.php';
 $target_file =$_FILES["file"]["name"];
        $extension=explode(".", $target_file);
        $name=$extension[1];

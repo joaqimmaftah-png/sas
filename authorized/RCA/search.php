@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 
 $data=$_GET['q'];
 $mee=  mysql_query("SELECT * FROM  tbl_site_db WHERE site_id LIKE '%$data%'") or die(mysql_error());

@@ -1,7 +1,8 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
 $deparment=$_POST['department'];
 if(!empty($deparment)){
 $b=mysql_query("INSERT INTO tbl_department(department_name) VALUE('$deparment')") or die(mysql_error());

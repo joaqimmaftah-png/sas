@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/mysql_compat.php';
- include 'authorized/db.php'; ?>
+ require_once __DIR__ . '/db.php'; ?>
 <!DOCTYPE html>
 <html>
     <head>

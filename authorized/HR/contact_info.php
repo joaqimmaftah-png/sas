@@ -1,6 +1,7 @@
 
 <!-----------------------/////////////php to insert data into tbl_contract_to_work table//////////////////------------------->
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 $message="";

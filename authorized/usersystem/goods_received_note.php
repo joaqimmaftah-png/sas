@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 $yusin = mysql_query("SELECT * from tbl_goods_received_order ORDER BY goods_id DESC") or die(mysql_error());

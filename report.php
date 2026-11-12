@@ -69,7 +69,7 @@
 require_once __DIR__ . '/mysql_compat.php';
 
 $file = fopen("desktop_browsers_share_dec2011.txt","w");
-include_once 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $select=  mysql_query("SELECT DISTINCT part_common_name FROM tbl_store_report") or die(mysql_error()); 
 while ($row = mysql_fetch_array($select)) {
     $jina=$row['part_common_name'];

@@ -1,7 +1,7 @@
   <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
- include_once 'authorized/db.php';
+ require_once __DIR__ . '/../../db.php';
   if(isset($_POST['submit_opm'])){
 $DSCF=mysql_escape_string($_POST['DSCF']);
 $keyowner=$_POST['keyowner'];
@@ -251,7 +251,7 @@ $low = mysql_fetch_array($en);
         </thead>
         <tbody>
             <?php
-            include_once 'authorized/db.php';
+            require_once __DIR__ . '/../../db.php';
             $purchase = mysql_query("SELECT * FROM tbl_operational_monitor WHERE category_type=2 ORDER BY opm_id DESC") or die(mysql_error());
             $j=1;
             while ($row = mysql_fetch_array($purchase)) {

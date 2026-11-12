@@ -36,6 +36,7 @@
            <div class="form-group">
       <label for="from">From:</label>
       <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
       $emp_file_no=$_SESSION["emp_file_no"];

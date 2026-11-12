@@ -24,7 +24,7 @@ if(isset($_POST['approve'])){
         </thead>
         <tbody>
             <?php
-            include_once 'authorized/db.php';
+            require_once __DIR__ . '/../../db.php';
             $purchase = mysql_query("SELECT * FROM tbl_purchase_order where prepared_by!=''") or die(mysql_error());
             while ($row = mysql_fetch_array($purchase)) {
                  $purchase_id = $row['purchase_id'];

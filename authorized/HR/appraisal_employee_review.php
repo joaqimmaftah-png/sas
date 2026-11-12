@@ -1,10 +1,11 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
 $messag = "";
 if (!empty($_GET['responsible_id'])) {
-    include_once __DIR__ . '/../db.php';
+    include_once __DIR__ . '/../../db.php';
     if (isset($_POST['submit'])) {
         if ($_GET['responsible_id'] == $_POST['employee_number']) {
             if (!empty($_POST['checkbox'])) {

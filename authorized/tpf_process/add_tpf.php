@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 $tpf_code=$_POST['tpf_code'];
 $tpf_date=$_POST['tpf_date'];
 $tpf_name=$_POST['tpf_name'];

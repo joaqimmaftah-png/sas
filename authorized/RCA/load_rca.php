@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 $query = "SELECT * FROM tbl_rca ORDER BY rcs_id DESC";
 $resultT = mysql_query($query) or die("SQL Error 1: " . mysql_error());
 // get data and store in a json array

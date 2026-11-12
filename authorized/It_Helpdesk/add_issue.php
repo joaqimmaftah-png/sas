@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 $result11 = mysql_query("SELECT * from tbl_employee") or die(mysql_error());

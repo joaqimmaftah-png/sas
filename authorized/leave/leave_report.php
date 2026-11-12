@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-  include_once 'authorized/db.php';
+  require_once __DIR__ . '/../../db.php';
 ?>
 <table class="table table-hover table-bordered" id="leave">
                             <thead>

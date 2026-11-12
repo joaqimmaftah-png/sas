@@ -2,7 +2,7 @@
 require_once __DIR__ . '/mysql_compat.php';
   
 session_start();
-include 'authorized/db.php'; 
+require_once __DIR__ . '/db.php'; 
 $emp_file_no=$_SESSION["emp_file_no"];
 $access_lever=$_SESSION["access_lever"];
 $jina=mysql_query("SELECT * from tbl_user_accounts where emp_file_no='$emp_file_no'") or die(mysql_error());
