@@ -22,7 +22,7 @@
 require_once __DIR__ . '/mysql_compat.php';
  echo 'MCC';?>")'><i class="icon-cancel  fg-blue"></i>&nbsp;<?php echo 'JOAQIM'?></a>
        <div id="change">
-        <input type="text" name="" value="Joaqim" >
+        <input type="text" name="" value="Joaqim joh" >
         </div>
     </body>
 </html>
