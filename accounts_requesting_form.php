@@ -2,7 +2,7 @@
 require_once __DIR__ . '/mysql_compat.php';
 
 session_start();
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $cookie_name = "request";
 $cookie_value = $_GET['request'];
 setcookie($cookie_name, $cookie_value, time() + (60 * 60), "/"); // 86400 = 1 day
@@ -88,7 +88,7 @@ setcookie($cookie_name, $cookie_value, time() + (60 * 60), "/"); // 86400 = 1 da
     <!--            home accounts--> 
     <div class="" style="width:100%;">
         <?php
-        include 'authorized/db.php';
+        require_once __DIR__ . '/db.php';
         if (isset($_POST['send'])) {
             if (!isset($_COOKIE[$cookie_name])) {
                 echo "Cookie named '" . $cookie_name . "' is not set!";
@@ -202,7 +202,7 @@ setcookie($cookie_name, $cookie_value, time() + (60 * 60), "/"); // 86400 = 1 da
 
                             <tbody>             
                                 <?php
-                                include 'authorized/db.php';
+                                require_once __DIR__ . '/db.php';
                                 if (isset($_POST['send'])) {
                                     if (!isset($_COOKIE[$cookie_name])) {
                                         echo "Cookie named '" . $cookie_name . "' is not set!";

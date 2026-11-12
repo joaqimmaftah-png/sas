@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
 
 $message='';
 if(isset($_POST['approve'])){
-    include_once 'authorized/db.php';
+    require_once __DIR__ . '/../../db.php';
     $items=$_GET['item'];
     $employee_no=$_SESSION['emp_file_no'];
     $update=  mysql_query("UPDATE  tbl_purchase_order SET prepared_by='$employee_no' WHERE item='$items'") or die(mysql_error());
@@ -15,7 +15,7 @@ if(isset($_POST['approve'])){
 ?>
 <div id="invoice-container" class="invoice-container">
     <?php
-    include_once 'authorized/db.php';
+    require_once __DIR__ . '/../../db.php';
                 $items=$_GET['item'];
                 $purchase=  mysql_query("SELECT * FROM tbl_items where item='$items'") or die(mysql_error());
                 $sumitem=  mysql_query("SELECT SUM(subtotal) FROM  tbl_items where item='$items'") or die(mysql_error());

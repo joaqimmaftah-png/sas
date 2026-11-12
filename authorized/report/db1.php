@@ -11,7 +11,7 @@
         <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 $selet=  mysql_query("SELECT * FROM db1") or die(mysql_error());
 $re=mysql_num_rows($selet);
 

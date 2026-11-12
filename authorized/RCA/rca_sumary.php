@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
     $gtu=mysql_query("SELECT DISTINCT(tech_name) FROM tbl_site_db") or die(mysql_error());

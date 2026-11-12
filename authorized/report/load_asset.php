@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 
 $query = "SELECT * FROM tbl_fixed_asset ORDER BY asset_id DESC";
 $resultT = mysql_query($query) or die("SQL Error 1: " . mysql_error());

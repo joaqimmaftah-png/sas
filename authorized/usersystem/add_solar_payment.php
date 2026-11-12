@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
  * and open the template in the editor.
  */
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 $client_id=$_POST['client_id'];
 $Ref=$_POST['Ref'];
 $Date=$_POST['Date'];

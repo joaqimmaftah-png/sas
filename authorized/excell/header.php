@@ -16,4 +16,4 @@
 <script type="text/javascript" charset="utf-8" language="javascript" src="js/DT_bootstrap.js"></script>
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
- include('dbcon.php'); ?>
+ require_once __DIR__ . '/../../db.php'; ?>

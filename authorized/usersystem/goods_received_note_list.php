@@ -100,7 +100,7 @@ if (isset($_POST['add_goods_received'])) {
         <tbody>
             <?php
             $i=1;
-            include_once 'authorized/db.php';
+            require_once __DIR__ . '/../../db.php';
             
             
             

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
 $webhook_secret = 'ZWCNMAP3FC3C2ATTK3A4TAGX7U36UFLW';
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 require_once '../telerivet.php';
 $request_oil = $_POST['request_oil'];
 $vehicle_id = $_POST['vehicle_id'];

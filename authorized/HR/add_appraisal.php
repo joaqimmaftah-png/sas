@@ -1,5 +1,6 @@
 
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 $message = "";
@@ -273,7 +274,7 @@ if (isset($_POST['add_appraisal'])) {
 
                     <tbody>
                         <?php
-                        include_once __DIR__ . '/../db.php';
+                        include_once __DIR__ . '/../../db.php';
                         $compentance = mysql_query("SELECT * FROM tbl_competence") or die(mysql_error());
                         while ($show = mysql_fetch_array($compentance)) {
                             $competence_id = $show['competence_id'];

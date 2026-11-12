@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 if(is_array($_FILES)) {
 if(is_uploaded_file($_FILES['userImage']['tmp_name'])) {
-    include_once __DIR__ . '/../db.php';
+    include_once __DIR__ . '/../../db.php';
 $sourcePath = $_FILES['userImage']['tmp_name'];
 $targetPath = "user_images/".$_FILES['userImage']['name'];
 $name=$_FILES['userImage']['name'];

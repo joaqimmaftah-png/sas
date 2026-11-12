@@ -53,6 +53,7 @@
 
         <tbody>
             <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
             $leave_request = mysql_query("SELECT * FROM tbl_leaves")or die(mysql_error());

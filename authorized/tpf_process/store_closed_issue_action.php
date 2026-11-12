@@ -2,7 +2,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 $tpf_name = $_POST['tpf_code'];
 $tpf_qt_id=$_POST['qt_code'];
 $approve_status = 'Waiting for closing reference';

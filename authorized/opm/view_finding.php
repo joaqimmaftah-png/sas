@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once 'authorized/db.php';
+require_once __DIR__ . '/../../db.php';
 $opm_id=$_GET['opdm']; 
 $message='';
 $purchase = mysql_query("SELECT * FROM tbl_operational_monitor where opm_id='$opm_id'") or die(mysql_error());
@@ -64,7 +64,7 @@ $row = mysql_fetch_array($purchase);
         </thead>
         <tbody>
             <?php
-            include_once 'authorized/db.php';
+            require_once __DIR__ . '/../../db.php';
             $mimi=$_SESSION["emp_file_no"];
             
 //            $pur=mysql_query("SELECT * FROM tbl_action_list where Responsible='$mimi' AND opm_id='$opm_id'") or die(mysql_error());

@@ -2,10 +2,10 @@
 require_once __DIR__ . '/mysql_compat.php';
 
 session_start();
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $message="";
 if(isset($_POST['login'])) {
-    include 'authorized/db.php';
+    require_once __DIR__ . '/db.php';
 $emp_file_no=$_POST['emp_file_no'];
 $password1=$_POST['password'];
 $password=  md5($password1);
@@ -53,7 +53,7 @@ else {
 
 ?>
 
-<?php include 'authorized/db.php'; ?>
+<?php require_once __DIR__ . '/db.php'; ?>
 <!DOCTYPE html>
 <html>
     <head>

@@ -6,7 +6,7 @@ if (!isset($_SESSION['usertype'])) {
     header("location:index.php");
 }  else {
     
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 ?>
 <!DOCTYPE html>
 <html>

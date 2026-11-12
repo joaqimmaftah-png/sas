@@ -1,7 +1,8 @@
                              <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-                             include_once __DIR__ . '/../db.php';
+                             include_once __DIR__ . '/../../db.php';
  
                                         $relative_id=$_GET['deleteit'];
                                         $delete=  mysql_query("Delete from relative_action where relative_id='$relative_id'") or die(mysql_error());

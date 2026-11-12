@@ -2,6 +2,7 @@
             <div class="grid">               
                 <div id="invoice-container" class="invoice-container">
                     <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 

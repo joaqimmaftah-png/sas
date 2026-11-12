@@ -7,8 +7,7 @@ if(!isset($_SESSION["emp_file_no"]))
 {
 header("location:index.php");	
 }
-include 'authorized/db.php'; 
-include (dirname(__DIR__).'/authorized/db.php');
+require_once __DIR__ . '/db.php';
 $jina=mysql_query("SELECT *  from tbl_employee where emp_file_no='".$_SESSION["emp_file_no"]."'") or die(mysql_error());
 $show=  mysql_fetch_array($jina);
 $fname=$show['first_name'];

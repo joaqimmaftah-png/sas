@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once 'db.php';
+require_once __DIR__ . '/../../db.php';
 $userid = $_GET['siteid'];
 $show_driver = mysql_query("SELECT * FROM tbl_site_db WHERE site_id='$userid'") or die(mysql_error());
 $showing = mysql_fetch_array($show_driver);

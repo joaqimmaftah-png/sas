@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 $tpf_code=$_POST['tpf_code'];
 $qt_code=$_POST['qt_code'];
 $Work_Order=$_POST['workorder'];

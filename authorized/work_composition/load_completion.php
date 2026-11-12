@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 $select= mysql_query("SELECT * FROM site_survey") or die(mysql_error());
    
 $h=1;

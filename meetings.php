@@ -7,7 +7,7 @@ require_once __DIR__ . '/mysql_compat.php';
 //{
 //header("location:index.php");	
 //}
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 //$emp_file_no = $_SESSION["emp_file_no"];
 ?>
 <!DOCTYPE html>

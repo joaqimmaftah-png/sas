@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once 'authorized/db.php';
+require_once __DIR__ . '/../../db.php';
 $messaged='';
 $aids = $_GET['aids'];
 $pp = mysql_query("SELECT * FROM tbl_action_list where sn='$aids'") or die(mysql_error());

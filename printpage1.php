@@ -3,7 +3,7 @@ require_once __DIR__ . '/mysql_compat.php';
 
 
 
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 $qprin=$_GET['Qprint'];
 
 $result = mysql_query("SELECT * FROM tbl_preparedquotation WHERE Quotation_id='$qprin' ")or die(mysql_error());

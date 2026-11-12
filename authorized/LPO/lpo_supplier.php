@@ -2,7 +2,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
- include_once 'authorized/db.php';
+ require_once __DIR__ . '/../../db.php';
  $sms='';
 if(isset($_POST['add_new_supplier'])){
     $customer=$_POST['customer'];

@@ -33,7 +33,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
             <?php
             
             $i=1;
-           include_once 'authorized/db.php';  
+           require_once __DIR__ . '/../../db.php';  
            $status=$_GET['status'];
            $treport=$_GET['date'];
            

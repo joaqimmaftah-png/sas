@@ -12,7 +12,7 @@ require_once __DIR__ . '/mysql_compat.php';
     {
         if ($_POST['event'] == 'incoming_message')
         { 
-        include 'db.php';
+        require_once __DIR__ . '/db.php';
             $content = $_POST['content'];
             $from_number = $_POST['from_number'];
             $phone_id = $_POST['phone_id'];

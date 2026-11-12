@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
@@ -7,7 +8,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
 
 if(isset($_POST['insertpastemployee'])){
     $comname=$_POST['comname'];

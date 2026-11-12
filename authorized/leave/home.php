@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
     $messagez="";
-     include_once 'authorized/db.php';
+     require_once __DIR__ . '/../../db.php';
      //contact
 $contactinfo = mysql_query("SELECT * FROM tbl_contact WHERE emp_file_no='" . $_SESSION["emp_file_no"] . "'")or die(mysql_error());
 $contact = mysql_fetch_array($contactinfo);

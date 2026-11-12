@@ -2,7 +2,7 @@
 require_once __DIR__ . '/mysql_compat.php';
 
 if(isset($_POST['spare_excell'])){
-    include_once 'authorized/db.php';
+    require_once __DIR__ . '/db.php';
 $target_file =$_FILES["file"]["name"];
        $extension=explode(".", $target_file);
        $name=$extension[1];

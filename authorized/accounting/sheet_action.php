@@ -22,7 +22,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
                     </div>
                         <form action="" method="POST" id="account_data">
                             <?php
-                            include '../db.php';
+                            require_once __DIR__ . '/../../db.php';
                             $id=$_GET['q'];
                             $select_data=  mysql_query("SELECT * FROM tbl_accounts_sheets WHERE sheet_id='$id'") or die(mysql_error());
                            $row=  mysql_fetch_array($select_data);

@@ -1,7 +1,7 @@
       <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-      include '../db.php';
+      require_once __DIR__ . '/../../db.php';
       $nn=$_GET['issued'];
       $purt=mysql_query("SELECT * FROM tbl_action_list where sn='$nn'") or die(mysql_error());
       $row=  mysql_fetch_array($purt);

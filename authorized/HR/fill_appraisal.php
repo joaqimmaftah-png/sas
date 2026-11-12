@@ -20,6 +20,7 @@
 
     </div>
     <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
     $w = mysql_query("SELECT * FROM tbl_appraisal WHERE Appraisal_id=" . $_GET['Appraisal_id'] . "") or die(mysql_error());

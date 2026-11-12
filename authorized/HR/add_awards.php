@@ -26,6 +26,7 @@
 
 
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 if (isset($_GET['awardno'])) {
@@ -88,7 +89,7 @@ if (isset($_GET['awardno'])) {
 
     <?php
 }if(isset($_POST['ingizaawards'])){
-    include_once __DIR__ . '/../db.php';
+    include_once __DIR__ . '/../../db.php';
     $employee_no=$_POST['ingizaawards'];
     $expire=$_POST['expire'];
     $issues=$_POST['issues'];

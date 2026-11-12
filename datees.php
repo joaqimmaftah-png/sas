@@ -24,7 +24,7 @@ echo 'joaqim';
  * and open the template in the editor.
  */
 
-          include 'authorized/db.php';
+          require_once __DIR__ . '/db.php';
 $gtt=mysql_query("SELECT DISTINCT(reportdate) FROM  site_attendence WHERE reportdate>20200101 AND reportdate<20200314 ORDER BY reportdate") or die(mysql_error());
        //$too = implode(",", $addresses);
 while($alls=  mysql_fetch_array($gtt)){   

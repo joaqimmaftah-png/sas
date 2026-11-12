@@ -37,7 +37,7 @@ if($_GET['action']=='hr_pending'){
 
         <tbody>
                         <?php
-                        include 'authorized/db.php';
+                        require_once __DIR__ . '/db.php';
             $leave_request=  mysql_query("SELECT * FROM tbl_leaves WHERE hrm_status='pending'")or die(mysql_error());
             while ($row = mysql_fetch_array($leave_request)) {
                 $leave_type=$row['leave_type'];
@@ -114,7 +114,7 @@ $fullname=$firstname." ".$sirname;
 
         <tbody>
                         <?php
-                        include 'authorized/db.php';
+                        require_once __DIR__ . '/db.php';
             $leave_request=  mysql_query("SELECT * FROM tbl_leaves WHERE hod_status='pending'")or die(mysql_error());
             while ($row = mysql_fetch_array($leave_request)) {
                 $leave_type=$row['leave_type'];
@@ -191,7 +191,7 @@ $fullname=$firstname." ".$sirname;
 
         <tbody>
                         <?php
-             include 'authorized/db.php';
+             require_once __DIR__ . '/db.php';
             $leave_request=  mysql_query("SELECT * FROM tbl_leaves WHERE fs_status='pending'")or die(mysql_error());
             while ($row = mysql_fetch_array($leave_request)) {
                 $leave_type=$row['leave_type'];

@@ -32,9 +32,10 @@
 
 
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include_once __DIR__ . '/../db.php';
+include_once __DIR__ . '/../../db.php';
 $select_asset = mysql_query("SELECT * FROM tbl_employment_history WHERE history_id='".$_GET['history_id']."'") or die(mysql_error());
 $roww = mysql_fetch_array($select_asset);
 $history_id = $roww['history_id'];

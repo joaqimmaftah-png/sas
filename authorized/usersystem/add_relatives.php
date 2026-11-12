@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-   include_once '../db.php';
+   require_once __DIR__ . '/../../db.php';
     $emp_file_no = $_POST['employee_no'];
     $firstname = $_POST['fname'];
     $middlename = $_POST['mname'];

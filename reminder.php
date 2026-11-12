@@ -9,7 +9,7 @@ if ($_POST['secret'] !== $webhook_secret) {
     echo "Invalid webhook secret";
 } else {
     if ($_POST['event'] == 'incoming_message') {
-        include '../db.php';
+        require_once __DIR__ . '/db.php';
         require_once '../../telerivet.php';
         $content = $_POST['content'];
         $from_number = $_POST['from_number'];

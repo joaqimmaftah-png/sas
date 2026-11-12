@@ -23,7 +23,7 @@ require_once __DIR__ . '/mysql_compat.php';
          */
         $workdays = array();
         
-        include 'authorized/db.php';
+        require_once __DIR__ . '/db.php';
         $today = date('Ymd');
         $datez = '20191001';
         $date_end = '20191031';

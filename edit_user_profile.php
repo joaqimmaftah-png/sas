@@ -438,7 +438,7 @@ echo '</div>';
                             <select name="job">
                                 <option value="<?php echo $job1;?>"><?php echo $title_name;?></option>
                                 <?php
-                                include 'authorized/db.php';
+                                require_once __DIR__ . '/db.php';
                                 $SELECT = "SELECT * FROM tbl_title";
                                 $mimi = mysql_query($SELECT) or die(mysql_error());
                                 while ($row = mysql_fetch_array($mimi)) {
@@ -596,7 +596,7 @@ echo '</div>';
                                                      <option value="<?php echo $department_ida; ?>"><?php echo $department_namea; ?></option>
                                                     <?php
                                                     
-                                                    include 'authorized/db.php';
+                                                    require_once __DIR__ . '/db.php';
                                                     $SELECT = "SELECT * FROM tbl_department";
                                                     $mimi1 = mysql_query($SELECT) or die(mysql_error());
                                                     while ($row = mysql_fetch_array($mimi1)) {
@@ -622,7 +622,7 @@ echo '</div>';
                                                     <option value="<?php echo $position_idZ; ?>"><?php echo $position_nameZ; ?></option>
                                                     <?php
                                                     
-                                                    include 'authorized/db.php';
+                                                    require_once __DIR__ . '/db.php';
                                                     $SELECTy = "SELECT * FROM tbl_position";
                                                     $mimii = mysql_query($SELECTy) or die(mysql_error());
                                                     while ($row = mysql_fetch_array($mimii)) {

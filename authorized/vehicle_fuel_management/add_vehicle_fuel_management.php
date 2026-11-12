@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 $vehiclereg = $_POST['vehiclereg'];
 $drivername = $_POST['drivername'];
 $drivernamber =str_replace('','+',$_POST['drivernamber']);

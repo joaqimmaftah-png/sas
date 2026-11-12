@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../../mysql_compat.php';
    
    
     ////////////////////////////////////////////
-        include '../db.php';
+        require_once __DIR__ . '/../../../db.php';
  /////////////////////////////////////////////////////////////
      $date=date("d M Y");
      $day1 = mktime(0,0,0,date("m"),date("d")-8,date("Y"));

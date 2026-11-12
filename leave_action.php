@@ -3,7 +3,7 @@
 <?php
 require_once __DIR__ . '/mysql_compat.php';
 
-include_once '../db.php';
+require_once __DIR__ . '/db.php';
 $a=  mysql_query("SELECT * FROM tbl_leaves WHERE leave_id='".$_GET['q']."'") or die(mysql_error());
 $b=  mysql_fetch_array($a);
 $emp_file_no=$b['emp_file_no'];

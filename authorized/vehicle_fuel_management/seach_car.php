@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
 
 $search_id=$_GET['q'];
 if(!empty($search_id)){
-    include_once '../db.php';
+    require_once __DIR__ . '/../../db.php';
     $k=mysql_query("SELECT * FROM tbl_fuel_vehicles WHERE vehicle_reg_num LIKE '%$search_id%' OR driver_phone_num LIKE '%$search_id%' OR driver LIKE '%$search_id%'") or die(mysql_error());
 
 ?>

@@ -5,7 +5,7 @@ session_start();
 if (!isset($_SESSION['usertype'])) {
     header("location:index.php");
 }
-include 'authorized/db.php';
+require_once __DIR__ . '/db.php';
 
 $message = "";
 if (isset($_POST['category'])) {

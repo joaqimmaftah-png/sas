@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 //   $desc=$_POST['description'];
    $requiredemail=$_POST['requiredemail'];
         $status = "Rejected";

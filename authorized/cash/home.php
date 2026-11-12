@@ -27,6 +27,7 @@
         </tfoot>
                                        <tbody>
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
 $cashlist = mysql_query("SELECT * FROM cash_request ORDER BY requestdatereport DESC") or die(mysql_error());

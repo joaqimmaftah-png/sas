@@ -38,6 +38,7 @@
   <label for="reg">Receiver's:</label>
   <select class="form-control" id="reg" name="vregnm">
     <?php
+require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mysql_compat.php';
 
                         $select_car=mysql_query("SELECT * from tbl_title") or die(mysql_error());

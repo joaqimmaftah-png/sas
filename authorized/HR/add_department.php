@@ -1,7 +1,8 @@
 <?php
+require_once __DIR__ . '/../../db.php';
 require_once __DIR__ . '/../../mysql_compat.php';
 
-      include_once __DIR__ . '/../db.php';
+      include_once __DIR__ . '/../../db.php';
      $position = $_POST['position'];
     $department = $_POST['department'];
      $sdate = $_POST['sdate'];

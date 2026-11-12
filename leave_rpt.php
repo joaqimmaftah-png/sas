@@ -17,7 +17,7 @@ require_once __DIR__ . '/mysql_compat.php';
             </tr>
        
             <?php
-            include 'authorized/db.php';
+            require_once __DIR__ . '/db.php';
             $tbl_attendence = mysql_query("SELECT * from tbl_leaves")or die(mysql_error());          
             while ($row = mysql_fetch_array($tbl_attendence)) {
                 

@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../mysql_compat.php';
  * and open the template in the editor.
  */
 
-include '../db.php';
+require_once __DIR__ . '/../../db.php';
 if(!empty($_POST['customer'])){
 $siteaddress=$_POST['siteaddress'];
 $customer=$_POST['customer'];

@@ -1,7 +1,7 @@
     <?php
 require_once __DIR__ . '/../mysql_compat.php';
 
-    include 'authorized/db.php';
+    require_once __DIR__ . '/../db.php';
     $emailing='joaqim@sincrositewatch.com';
     $to = $emailing;
     $subject = 'Daily TPF Report Summary';

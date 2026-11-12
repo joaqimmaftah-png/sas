@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../mysql_compat.php';
 
 
-include_once '../db.php';
+require_once __DIR__ . '/../../db.php';
 $queryy = "SELECT * FROM tbl_site_update ORDER BY id DESC";
 $resultTT = mysql_query($queryy) or die("SQL Error 1: " . mysql_error());
 // get data and store in a json array

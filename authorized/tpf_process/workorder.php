@@ -15,7 +15,7 @@
 <?php
 require_once __DIR__ . '/../../mysql_compat.php';
 
-include 'authorized/db.php';
+require_once __DIR__ . '/../../db.php';
 $message = "";
 $bb = mysql_query("SELECT * FROM  tbl_tpf_qt ORDER BY tpf_qt_id DESC")or die(mysql_error());
 $cc=mysql_fetch_array($bb);
@@ -64,7 +64,7 @@ $qn_code="QN-00".$tpf_number;
 
         <tbody>
             <?php
-            include 'authorized/db.php';
+            require_once __DIR__ . '/../../db.php';
             $a = mysql_query("SELECT * FROM  tbl_tpf_qt WHERE Quotation_No<>'Empty' AND aproved_status='Approved'  ORDER BY tpf_qt_id DESC")or die(mysql_error());
             while ($b = mysql_fetch_array($a)) {
                 $tpf_no = $b['tpf_no'];               
