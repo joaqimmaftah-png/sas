@@ -2125,105 +2125,19 @@ if ($_SESSION['account_access'] == 'YES' OR $_SESSION["emp_file_no"]=='SSW 122' 
             <!-------------------create window's---------------->
             <div class="window">
                 <div class="caption">
-                    <span class="icon icon-windows"></span> 
-                    <div class="title">Apply Leave Request</div> 
-
-            <button class="btn-close close"  data-dismiss="modal"></button>
+                    <div class="sas-lr-head">
+                        <div class="sas-lr-head-icon"><i class="fa fa-calendar-plus-o"></i></div>
+                        <div class="sas-lr-head-text">
+                            <div class="title">Apply Leave Request</div>
+                            <div class="sas-lr-subtitle">Sincro Automation System &middot; Human Resource</div>
+                        </div>
+                        <button type="button" class="btn-close close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="margin10">                       
                         <form id="applyleave" action="authorized/usersystem/add_leave_request.php"  method="post">
-                        <?php include __DIR__ . '/leave_form_rules.php'; ?>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <label for="company_asset">From:</label>
-                                            <div class="input-control text" data-role="datepicker" data-week-start="1">
-                                                <input readonly="readonly" name="sdate" id="sdate"  type="text" class="form-control">
-                                                <button type="button" class="btn-date"></button>
-                                                <div class="calendar calendar-dropdown" style="position: absolute; max-width: 260px; z-index: 1000; top: 100%; left: 0px; display: none;"><table class="bordered"><tbody><tr class="calendar-header"><td class="text-center"><a class="btn-previous-year" href="#"><i class="icon-previous"></i></a></td><td class="text-center"><a class="btn-previous-month" href="#"><i class="icon-arrow-left-4"></i></a></td><td class="text-center" colspan="3"><a class="btn-select-month" href="#">February 2015</a></td><td class="text-center"><a class="btn-next-month" href="#"><i class="icon-arrow-right-4"></i></a></td><td class="text-center"><a class="btn-next-year" href="#"><i class="icon-next"></i></a></td></tr><tr class="calendar-subheader"><td class="text-center day-of-week">Mo</td><td class="text-center day-of-week">Tu</td><td class="text-center day-of-week">We</td><td class="text-center day-of-week">Th</td><td class="text-center day-of-week">Fr</td><td class="text-center day-of-week">Sa</td><td class="text-center day-of-week">Su</td></tr><tr><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="text-center day"><a href="#">1</a></td></tr><tr><td class="text-center day"><a href="#">2</a></td><td class="text-center day"><a href="#">3</a></td><td class="text-center day"><a href="#">4</a></td><td class="text-center day"><a href="#">5</a></td><td class="text-center day"><a href="#">6</a></td><td class="text-center day"><a href="#">7</a></td><td class="text-center day"><a href="#">8</a></td></tr><tr><td class="text-center day"><a href="#">9</a></td><td class="text-center day"><a href="#">10</a></td><td class="text-center day"><a href="#">11</a></td><td class="text-center day"><a href="#">12</a></td><td class="text-center day"><a href="#">13</a></td><td class="text-center day"><a href="#">14</a></td><td class="text-center day"><a href="#">15</a></td></tr><tr><td class="text-center day"><a href="#">16</a></td><td class="text-center day"><a href="#">17</a></td><td class="text-center day"><a href="#">18</a></td><td class="text-center day"><a href="#">19</a></td><td class="text-center day"><a href="#">20</a></td><td class="text-center day"><a href="#">21</a></td><td class="text-center day"><a href="#">22</a></td></tr><tr><td class="text-center day"><a href="#">23</a></td><td class="text-center day today"><a href="#">24</a></td><td class="text-center day"><a href="#">25</a></td><td class="text-center day"><a href="#">26</a></td><td class="text-center day"><a href="#">27</a></td><td class="text-center day"><a href="#">28</a></td><td class="empty"><small class="other-day"></small></td></tr></tbody></table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>                            
-                                    <td>
-                                        <div class="form-group">
-                                            <label for="company_asset">To:</label>
-                                            <div class="input-control text" data-role="datepicker" data-week-start="1">
-                                                <input  name="enddate" value="" id="enddate"   type="text" class="form-control">
-                                                <button type="button"  class="btn-date"></button>
-                                                <div class="calendar calendar-dropdown" style="position: absolute; max-width: 260px; z-index: 1000; top: 100%; left: 0px; display: none;"><table class="bordered"><tbody><tr class="calendar-header"><td class="text-center"><a class="btn-previous-year" href="#"><i class="icon-previous"></i></a></td><td class="text-center"><a class="btn-previous-month" href="#"><i class="icon-arrow-left-4"></i></a></td><td class="text-center" colspan="3"><a class="btn-select-month" href="#">February 2015</a></td><td class="text-center"><a class="btn-next-month" href="#"><i class="icon-arrow-right-4"></i></a></td><td class="text-center"><a class="btn-next-year" href="#"><i class="icon-next"></i></a></td></tr><tr class="calendar-subheader"><td class="text-center day-of-week">Mo</td><td class="text-center day-of-week">Tu</td><td class="text-center day-of-week">We</td><td class="text-center day-of-week">Th</td><td class="text-center day-of-week">Fr</td><td class="text-center day-of-week">Sa</td><td class="text-center day-of-week">Su</td></tr><tr><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="empty"><small class="other-day"></small></td><td class="text-center day"><a href="#">1</a></td></tr><tr><td class="text-center day"><a href="#">2</a></td><td class="text-center day"><a href="#">3</a></td><td class="text-center day"><a href="#">4</a></td><td class="text-center day"><a href="#">5</a></td><td class="text-center day"><a href="#">6</a></td><td class="text-center day"><a href="#">7</a></td><td class="text-center day"><a href="#">8</a></td></tr><tr><td class="text-center day"><a href="#">9</a></td><td class="text-center day"><a href="#">10</a></td><td class="text-center day"><a href="#">11</a></td><td class="text-center day"><a href="#">12</a></td><td class="text-center day"><a href="#">13</a></td><td class="text-center day"><a href="#">14</a></td><td class="text-center day"><a href="#">15</a></td></tr><tr><td class="text-center day"><a href="#">16</a></td><td class="text-center day"><a href="#">17</a></td><td class="text-center day"><a href="#">18</a></td><td class="text-center day"><a href="#">19</a></td><td class="text-center day"><a href="#">20</a></td><td class="text-center day"><a href="#">21</a></td><td class="text-center day"><a href="#">22</a></td></tr><tr><td class="text-center day"><a href="#">23</a></td><td class="text-center day today"><a href="#">24</a></td><td class="text-center day"><a href="#">25</a></td><td class="text-center day"><a href="#">26</a></td><td class="text-center day"><a href="#">27</a></td><td class="text-center day"><a href="#">28</a></td><td class="empty"><small class="other-day"></small></td></tr></tbody></table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td> 
-
-                                </tr>                          
-                            </table>
-                            <div id="depends">
-                                <!--                               shows -->
-                            </div>
-                            <div class="form-group">                                                             
-                                <input  type="hidden"  class="form-control" value="<?php echo $first_name . ' ' . $surname; ?>" id="name" name="name">
-                                <input  type="hidden" class="form-control" value="<?php echo $_SESSION["emp_file_no"]; ?>" id="employee_no" name="employee_no">
-                            </div> 
-                            <div class="form-group">
-                                <label for="sel1">Leave Type:</label>
-                                <select class="form-control" name="leave_type" id="leave_type">
-                                    <option>---select</option>
-<?php
-$a = mysql_query("SELECT * FROM tbl_leave_type") or die(mysql_error());
-while ($b = mysql_fetch_array($a)) {
-    $leave_type = $b['leave_type'];
-    $leave_type_id = $b['leave_type_id'];
-    ?>
-                                        <option  value="<?php echo $leave_type_id; ?>"><?php echo $leave_type; ?></option>
-
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="form-group" id="fs">
-                                <label for="fs">Select Your Immediate Supervisor:</label>
-                                <select class="form-control" name="fs" id="fs">
-                                    <option>---select</option>
-                                    <?php
-                                    $a = mysql_query("SELECT * FROM tbl_employee") or die(mysql_error());
-                                    while ($b = mysql_fetch_array($a)) {
-                                        $first_name = $b['first_name'];
-                                        $surname = $b['surname'];
-                                        $emp_file_noo = $b['emp_file_no'];
-                                        ?>
-                                        <option  value="<?php echo $emp_file_noo; ?>"><?php echo $first_name . '&nbsp;' . $surname; ?></option>
-
-                                    <?php 
-                                    
-                                    }
-                                    ?>
-                                </select>
-                            </div> 
-                            <div class="form-group" >
-                                <label for="hod">Select The Head Of your Department:</label>
-                                <select class="form-control" name="hod" id="hod">
-                                    <option>---select</option>
-                                    <?php
-                                    $a = mysql_query("SELECT * FROM tbl_employee") or die(mysql_error());
-                                    while ($b = mysql_fetch_array($a)) {
-                                        $first_name = $b['first_name'];
-                                        $surname = $b['surname'];
-                                        $emp_file_noo = $b['emp_file_no'];
-                                        ?>
-                                        <option  value="<?php echo $emp_file_noo; ?>"><?php echo $first_name . '&nbsp;' . $surname; ?></option>
-
-                                    <?php } ?>
-                                </select>
-                            </div> 
-
-
-                            <input type="submit" value="Submit Request" class="btn btn-default">
-
+                        <?php include __DIR__ . '/leave_request_form.php'; ?>
                         </form>
 
 

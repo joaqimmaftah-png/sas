@@ -170,7 +170,7 @@ window.SAS_LEAVE_RULES = <?php echo json_encode($sas_leave_data); ?>;
 
     function annotateOptions(form) {
         var sel = typeSelect(form);
-        if (!sel || sel.getAttribute('data-sas-annotated') === '1') {
+        if (!sel) {
             return;
         }
         sel.setAttribute('data-sas-annotated', '1');
@@ -180,15 +180,40 @@ window.SAS_LEAVE_RULES = <?php echo json_encode($sas_leave_data); ?>;
             : ' (' + fmt(R.remaining) + ' days left)';
 
         for (var i = 0; i < sel.options.length; i++) {
-            if (isAnnualType(sel.options[i].value)) {
-                sel.options[i].text = sel.options[i].text + suffix;
+            var opt = sel.options[i];
+            if (!isAnnualType(opt.value)) {
+                continue;
             }
+            // Keep the original label so this can run again after a request
+            // is saved and the balance changes (no text piling up).
+            if (opt.getAttribute('data-sas-label') === null) {
+                opt.setAttribute('data-sas-label', opt.text);
+            }
+            opt.text = opt.getAttribute('data-sas-label') + suffix;
         }
     }
 
     function isPlaceholder(sel) {
         var v = String(sel.value || '');
         return v === '' || v.charAt(0) === '-';
+    }
+
+    function notify(form, req, annual) {
+        if (typeof window.SAS_LEAVE_ON_UPDATE !== 'function') {
+            return;
+        }
+        try {
+            window.SAS_LEAVE_ON_UPDATE({
+                form: form,
+                days: (req && req.days) ? req.days : null,
+                error: (req && req.error) ? req.error : null,
+                annual: !!annual,
+                allowance: R.allowance,
+                used: R.used,
+                remaining: R.remaining,
+                year: R.year
+            });
+        } catch (e) { /* a broken listener must never block the form */ }
     }
 
     function refresh(form) {
@@ -199,6 +224,9 @@ window.SAS_LEAVE_RULES = <?php echo json_encode($sas_leave_data); ?>;
         var req = requestedDays(form);
         var annual = isAnnual(form);
 
+        // Let the redesigned form paint its day counter / balance card.
+        notify(form, req, annual);
+
         if (req && req.error === 'before') {
             showNote(form, 'danger',
                 '<strong>Check the dates.</strong> The "To" date is before the "From" date.');
@@ -206,9 +234,18 @@ window.SAS_LEAVE_RULES = <?php echo json_encode($sas_leave_data); ?>;
         }
 
         if (!annual) {
-            showNote(form, 'info',
-                '<strong>No annual limit.</strong> Only annual leave is limited to '
-                + fmt(R.allowance) + ' days per calendar year (' + fmt(R.year) + '); any other leave type is unrestricted.');
+            var sel = typeSelect(form);
+            if (sel && isPlaceholder(sel)) {
+                // Nothing chosen yet - show the balance, not a rule verdict.
+                showNote(form, 'info',
+                    '<strong>Annual leave ' + fmt(R.year) + ':</strong> ' + fmt(R.allowance)
+                    + ' day(s) allowance, ' + fmt(R.used) + ' used, <strong>' + fmt(R.remaining)
+                    + ' left</strong>. Pick a leave type to see whether it is limited.');
+            } else {
+                showNote(form, 'info',
+                    '<strong>No annual limit.</strong> Only annual leave is limited to '
+                    + fmt(R.allowance) + ' days per calendar year (' + fmt(R.year) + '); any other leave type is unrestricted.');
+            }
             return;
         }
 
@@ -288,12 +325,20 @@ window.SAS_LEAVE_RULES = <?php echo json_encode($sas_leave_data); ?>;
     document.addEventListener('change', onChange, true);
     document.addEventListener('input', onChange, true);
 
-    function init() {
+    function refreshAll() {
         var forms = leaveForms(), i;
         for (i = 0; i < forms.length; i++) {
             annotateOptions(forms[i]);
             refresh(forms[i]);
         }
+    }
+
+    // Used by the redesigned form after a request is saved (the balance moved)
+    // and by the "Clear" button.
+    window.SAS_LEAVE_API = { refresh: refreshAll };
+
+    function init() {
+        refreshAll();
     }
 
     if (document.readyState === 'loading') {
