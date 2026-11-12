@@ -186,6 +186,11 @@ window.SAS_LEAVE_RULES = <?php echo json_encode($sas_leave_data); ?>;
         }
     }
 
+    function isPlaceholder(sel) {
+        var v = String(sel.value || '');
+        return v === '' || v.charAt(0) === '-';
+    }
+
     function refresh(form) {
         if (!typeSelect(form)) {
             return;
@@ -225,6 +230,12 @@ window.SAS_LEAVE_RULES = <?php echo json_encode($sas_leave_data); ?>;
     function validate(form) {
         // keep the note in step with what is about to be submitted
         refresh(form);
+
+        var sel = typeSelect(form);
+        if (sel && isPlaceholder(sel)) {
+            showNote(form, 'danger', '<strong>Choose a leave type.</strong> Please pick one from the list before submitting.');
+            return false;
+        }
 
         var req = requestedDays(form);
 

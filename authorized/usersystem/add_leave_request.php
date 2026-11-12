@@ -125,7 +125,15 @@ $fs_status  = 'Pending';
 
 $type_sql = mysql_real_escape_string($leave_type);
 $a = mysql_fetch_array($q("SELECT * FROM tbl_leave_type WHERE leave_type_id='$type_sql'"));
-$leavename = $a ? $a['leave_type'] : '';
+
+if (!$a) {
+    // "---select" or a type that no longer exists - do not store junk rows.
+    echo sas_alert('danger', 'Error, not saved!..',
+        'Please select a valid leave type from the list.');
+    exit;
+}
+
+$leavename = $a['leave_type'];
 
 // ---------------------------------------------------------------------------
 // Rule 1/2 - annual leave limit only (all other types are unrestricted)
