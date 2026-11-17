@@ -75,7 +75,12 @@ if (function_exists('register_shutdown_function')) {
 if (!function_exists('sas_db')) {
     function sas_db()
     {
-        if (isset($GLOBALS['__sas_db_link']) && $GLOBALS['__sas_db_link'] instanceof mysqli) {
+        // Reuse an already-open link. $GLOBALS['__sas_db_link'] may be a
+        // mysqli object (when the mysqli-backed shim opened it, i.e. no
+        // ext/mysql on the host) OR a legacy ext/mysql resource (when the
+        // real mysql extension is loaded, e.g. older cPanel PHP). Both are
+        // truthy; only false means "not connected yet".
+        if (isset($GLOBALS['__sas_db_link']) && $GLOBALS['__sas_db_link']) {
             return $GLOBALS['__sas_db_link'];
         }
 
@@ -84,8 +89,16 @@ if (!function_exists('sas_db')) {
             or die('Database connection failed. Check db_config.php');
         mysql_select_db(SAS_DB_NAME, $link)
             or die("Database '" . htmlspecialchars(SAS_DB_NAME) . "' could not be selected. Check db_config.php");
-        if (function_exists('mysqli_set_charset')) {
+        // Set the connection charset. $link may be a mysqli object (mysqli-
+        // backed shim / no ext/mysql on host) or a legacy ext/mysql resource
+        // (real mysql extension loaded, e.g. older cPanel PHP). mysqli_set_charset()
+        // REQUIRES a mysqli object and raises a TypeError (fatal -> HTTP 500)
+        // if given a resource, so branch on the link type. When ext/mysql is
+        // present, the matching legacy mysql_set_charset() takes the resource.
+        if ($link instanceof mysqli && function_exists('mysqli_set_charset')) {
             @mysqli_set_charset($link, 'utf8mb4');
+        } elseif (function_exists('mysql_set_charset')) {
+            @mysql_set_charset('utf8mb4', $link);
         }
 
         $GLOBALS['__sas_db_link'] = $link;
@@ -101,7 +114,9 @@ $bd = sas_db();
 
 date_default_timezone_set(SAS_TIMEZONE);
 
-// Keep the older name some scripts used for the same link.
-if (!isset($conn) || !($conn instanceof mysqli)) {
+// Keep the older name some scripts used for the same link. $bd may be a
+// mysqli object or a legacy ext/mysql resource depending on the host, so
+// accept either (any truthy link) rather than only instanceof mysqli.
+if (!isset($conn) || !$conn) {
     $conn = $bd;
 }
