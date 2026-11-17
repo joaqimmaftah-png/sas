@@ -2,23 +2,58 @@
 /**
  * Test bootstrap for the SAS leave module.
  *
- * Connects to the database configured through the SAS_DB_* environment
- * variables (a MySQL service in CI), makes sure the tables the leave module
- * needs exist, and seeds a small, deterministic set of rows so every test case
- * starts from the same state.
+ * Opens a dedicated TEST database (separate from the real application database,
+ * so running the suite on a local XAMPP can never damage real data), makes sure
+ * the tables the leave module needs exist, and seeds a small, deterministic set
+ * of rows so every test case starts from the same state.
  *
- * The connection is the real one used by the application (db.php), so the
- * endpoint under test exercises exactly the same code path as in production.
+ * Connection details come from db_config.php / the SAS_DB_* environment
+ * variables; the database name is forced to a separate one (SAS_TEST_DB_NAME).
+ * The endpoint under test runs against this same link, so it exercises exactly
+ * the same code path as in production.
  */
 
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 require_once __DIR__ . '/../mysql_compat.php';
-require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../db_config.php';
 
-// Surface the real link used by the mysql_* shim.
-sas_db();
+// Use a dedicated TEST database so running the suite can NEVER touch the real
+// application database (e.g. daima12_sincro on a local XAMPP). The connection
+// details (host/user/password) come from db_config.php / SAS_DB_* env vars, but
+// the database name is forced to a separate one. Override with SAS_TEST_DB_NAME.
+$testDb = getenv('SAS_TEST_DB_NAME');
+if ($testDb === false || trim($testDb) === '') {
+    $testDb = 'sas_leave_test';
+}
+$host = SAS_DB_HOST . (SAS_DB_PORT !== '' ? ':' . SAS_DB_PORT : '');
+
+$link = mysql_connect($host, SAS_DB_USER, SAS_DB_PASS);
+if (!$link) {
+    fwrite(STDERR, "Cannot connect to MySQL at $host as " . SAS_DB_USER . "\n");
+    exit(1);
+}
+
+$escDb = mysql_real_escape_string($testDb);
+if (!@mysql_query("CREATE DATABASE IF NOT EXISTS `$escDb` DEFAULT CHARACTER SET utf8mb4")) {
+    fwrite(STDERR, "Cannot create test database '$testDb': " . mysql_error() . "\n");
+    exit(1);
+}
+if (!mysql_select_db($testDb, $link)) {
+    fwrite(STDERR, "Cannot select test database '$testDb': " . mysql_error() . "\n");
+    exit(1);
+}
+if (function_exists('mysqli_set_charset')) {
+    @mysqli_set_charset($link, 'utf8mb4');
+}
+
+// Make this the single link every mysql_*() call and sas_db() will use, so
+// db.php / leave_rules.php / the endpoint under test all talk to the test db.
+$GLOBALS['__sas_db_link']        = $link;
+$GLOBALS['__mysql_compat_default_link'] = $link;
+
+echo "Using test database: $testDb\n";
 
 /** Execute a statement on the shared link; throw on error. */
 function sas_test_exec($sql)

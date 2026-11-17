@@ -49,6 +49,7 @@ jobs:
       SAS_DB_USER: root
       SAS_DB_PASS: ""
       SAS_DB_NAME: sas_test
+      SAS_TEST_DB_NAME: sas_test
       SAS_TIMEZONE: UTC
       SAS_DEBUG: "1"
 

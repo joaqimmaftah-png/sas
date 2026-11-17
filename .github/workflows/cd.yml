@@ -1,14 +1,19 @@
 name: CD
 
-# Runs after CI: builds, tests and packages a release, and (optionally) deploys.
+# Runs after CI: builds, tests and packages a release.
 #
-# Deployment is OFF unless you configure these repository secrets:
+# This project runs on a local XAMPP stack, so "deploy" normally means copying
+# files into xampp/htdocs/sas. The `build` job produces a sas-release.zip
+# artifact - download it and drop it into your XAMPP htdocs folder to deploy.
+#
+# If you ever want to push straight to a remote/staging server instead, the
+# optional `deploy` job runs only when you set these repository secrets:
 #   DEPLOY_ENABLED  = "true"
 #   DEPLOY_HOST     = user@your-server   (SSH target)
 #   DEPLOY_PATH     = /var/www/sas        (destination directory)
 #   DEPLOY_SSH_KEY  = ----BEGIN OPENSSH PRIVATE KEY----...  (SSH key for rsync)
-# Until they are set the workflow packages a release zip and skips the deploy
-# step, so it is safe to enable immediately.
+# With no secrets set the workflow just packages the release, so it is safe to
+# enable immediately.
 on:
   push:
     branches: [main]
@@ -41,6 +46,7 @@ jobs:
       SAS_DB_USER: root
       SAS_DB_PASS: ""
       SAS_DB_NAME: sas_test
+      SAS_TEST_DB_NAME: sas_test
       SAS_TIMEZONE: UTC
       SAS_DEBUG: "1"
 
@@ -91,7 +97,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via rsync
+      - name: Deploy to remote server via rsync (optional)
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
