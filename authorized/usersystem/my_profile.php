@@ -2160,17 +2160,14 @@ if ($_SESSION['account_access'] == 'YES' OR $_SESSION["emp_file_no"]=='SSW 122' 
 
                                     <tbody>
 <?php
-$select_asset = mysql_query("SELECT * FROM tbl_leaves WHERE emp_file_no='" . $_SESSION["emp_file_no"] . "'") or die(mysql_error());
+$select_asset = mysql_query("SELECT l.start_date, l.end_date, l.hod_status, l.fs_status, l.hrm_status, t.leave_type AS leave_type_name FROM tbl_leaves l LEFT JOIN tbl_leave_type t ON t.leave_type_id = l.leave_type WHERE l.emp_file_no='" . $_SESSION["emp_file_no"] . "'") or die(mysql_error());
 while ($roww = mysql_fetch_array($select_asset)) {
     $start_date = $roww['start_date'];
     $end_date = $roww['end_date'];
     $hod_status = $roww['hod_status'];
     $fs_status = $roww['fs_status'];
     $hrm_status = $roww['hrm_status'];
-    $leave_id = $roww['leave_type'];
-    $b = mysql_query("SELECT * FROM tbl_leave_type WHERE leave_type_id='$leave_id'") or die(mysql_error());
-    $a = mysql_fetch_array($b);
-    $leave_type = $a['leave_type'];
+    $leave_type = $roww['leave_type_name'];
     ?>
                                             <tr>
                                                 <td class="right"><?php echo $start_date; ?></td>
@@ -2254,8 +2251,20 @@ while ($roww = mysql_fetch_array($select_asset)) {
                                 <a style="padding-left: 0px;" href="#"><span class="node-toggle"></span><i class="icon-folder fg-yellow"></i>&nbsp;Category</a>
                                 <ul style="display: none;">
 <?php
+// Fetch every asset ONCE and group by category. This replaces the previous
+// pattern of one query per category (N+1) and also feeds the asset-name
+// dropdown further down the page.
+$allAssetRows = array();
+$assetsByCategory = array();
+$rAssetAll = mysql_query("SELECT asset_name, asset_ids, asset_category FROM tbl_asset_name") or die(mysql_error());
+while ($arowAll = mysql_fetch_array($rAssetAll)) {
+    $allAssetRows[] = $arowAll;
+    $assetsByCategory[$arowAll['asset_category']][] = $arowAll;
+}
+$allCategoryRows = array();
 $select_categories = mysql_query("SELECT * FROM tbl_asset_category") or die(mysql_error());
 while ($showing = mysql_fetch_array($select_categories)) {
+    $allCategoryRows[] = $showing;
     $category_id = $showing['cat_id'];
     $categories_name = $showing['category_name'];
     ?>
@@ -2263,8 +2272,8 @@ while ($showing = mysql_fetch_array($select_categories)) {
                                             <a style="padding-left: 20px;" href="#"><span class="node-toggle"></span><i class="icon-folder fg-yellow"></i>&nbsp;<?php echo $categories_name; ?></a>
                                             <ul>
                                         <?php
-                                        $select_asset = mysql_query("SELECT * FROM tbl_asset_name where asset_category='$category_id'") or die(mysql_error());
-                                        while ($rowing = mysql_fetch_array($select_asset)) {
+                                        $categoryAssets = isset($assetsByCategory[$category_id]) ? $assetsByCategory[$category_id] : array();
+                                        foreach ($categoryAssets as $rowing) {
                                             $ass_name = $rowing['asset_name'];
                                             $asset_ids = $rowing['asset_ids'];
                                             ?>
@@ -2337,8 +2346,16 @@ while ($sg = mysql_fetch_array($tbl_departments)) {
                                 <a style="padding-left: 0px;" href="#"><span class="node-toggle"></span><i class="icon-folder fg-yellow"></i>&nbsp;Vendors</a>
                                 <ul style="display: none;">
 <?php
-$tbl_asset_category = mysql_query("SELECT * FROM tbl_asset_category") or die(mysql_error());
-while ($rd = mysql_fetch_array($tbl_asset_category)) {
+// Fetch every vendor ONCE and group by category (avoids one query per category).
+$allVendorRows = array();
+$vendorsByCategory = array();
+$rVendorAll = mysql_query("SELECT vendor_name, vendor_id, cat_id FROM tbl_vendors") or die(mysql_error());
+while ($vrowAll = mysql_fetch_array($rVendorAll)) {
+    $allVendorRows[] = $vrowAll;
+    $vendorsByCategory[$vrowAll['cat_id']][] = $vrowAll;
+}
+// Reuse the category list already fetched for the asset tree (no re-query).
+foreach ($allCategoryRows as $rd) {
     $category_id = $rd['cat_id'];
     $categories_name = $rd['category_name'];
     ?>
@@ -2346,8 +2363,8 @@ while ($rd = mysql_fetch_array($tbl_asset_category)) {
                                             <a style="padding-left: 20px;" href="#"><span class="node-toggle"></span><i class="icon-folder fg-yellow"></i>&nbsp;<?php echo $categories_name; ?></a>
                                             <ul>
                                         <?php
-                                        $tbl_vendors = mysql_query("SELECT * FROM tbl_vendors where cat_id='$category_id'") or die(mysql_error());
-                                        while ($rs = mysql_fetch_array($tbl_vendors)) {
+                                        $categoryVendors = isset($vendorsByCategory[$category_id]) ? $vendorsByCategory[$category_id] : array();
+                                        foreach ($categoryVendors as $rs) {
                                             $vendor_name = $rs['vendor_name'];
                                             $vendor_id = $rs['vendor_id'];
                                             ?>
@@ -2409,8 +2426,8 @@ while ($rd = mysql_fetch_array($tbl_asset_category)) {
                                                         <select class="form-control"  id="kind_id" name="assetname">
                                                             <option value="" >----Asset Name:---</option>
 <?php
-$choseasset = mysql_query("SELECT * from tbl_asset_name") or die(mysql_error());
-while ($johh = mysql_fetch_array($choseasset)) {
+// Reuse the single asset fetch done for the category tree above (no second scan).
+foreach ($allAssetRows as $johh) {
     $asset_name = $johh['asset_name'];
     $asset_category = $johh['asset_category'];
     ?>
@@ -2437,8 +2454,8 @@ while ($johh = mysql_fetch_array($choseasset)) {
                                                         <select class="form-control"  id="kind_id" name="vendor">
                                                             <option value="" >----Vendor:---</option>
 <?php
-$vendorss = mysql_query("SELECT * from tbl_vendors") or die(mysql_error());
-while ($johhs = mysql_fetch_array($vendorss)) {
+// Reuse the single vendor fetch done for the tree above (no second scan).
+foreach ($allVendorRows as $johhs) {
     $vendor_name = $johhs['vendor_name'];
     $vendor_id = $johhs['vendor_id'];
     ?>

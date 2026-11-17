@@ -44,8 +44,13 @@ if (!mysql_select_db($testDb, $link)) {
     fwrite(STDERR, "Cannot select test database '$testDb': " . mysql_error() . "\n");
     exit(1);
 }
-if (function_exists('mysqli_set_charset')) {
+// Set charset: branch on the link type. On a host with the real ext/mysql
+// extension loaded, mysql_connect() returns a legacy resource (not a mysqli
+// object), and mysqli_set_charset() would raise a TypeError (fatal) on it.
+if ($link instanceof mysqli && function_exists('mysqli_set_charset')) {
     @mysqli_set_charset($link, 'utf8mb4');
+} elseif (function_exists('mysql_set_charset')) {
+    @mysql_set_charset('utf8mb4', $link);
 }
 
 // Make this the single link every mysql_*() call and sas_db() will use, so
