@@ -123,17 +123,25 @@ $hod_status = 'Pending';
 $hrm_status = 'Pending';
 $fs_status  = 'Pending';
 
-$type_sql = mysql_real_escape_string($leave_type);
-$a = mysql_fetch_array($q("SELECT * FROM tbl_leave_type WHERE leave_type_id='$type_sql'"));
+// The form posts leave_type_id, but accept the type name too (legacy forms /
+// hand-written requests). Resolve once and store the canonical id so the rest
+// of the system (approval pages, reports) keeps joining by id.
+$resolved = sas_leave_resolve_type($leave_type);
 
-if (!$a) {
-    // "---select" or a type that no longer exists - do not store junk rows.
-    echo sas_alert('danger', 'Error, not saved!..',
-        'Please select a valid leave type from the list.');
+if (!$resolved) {
+    // Either nothing is configured, or the submitted value matches no type.
+    if (sas_leave_type_count() === 0) {
+        echo sas_alert('danger', 'Error, not saved!..',
+            'No leave types are configured yet. Please ask the administrator to add leave types before submitting a request.');
+    } else {
+        echo sas_alert('danger', 'Error, not saved!..',
+            'Please select a valid leave type from the list. The type you selected ("' . $esc($leave_type) . '") is not available in the system.');
+    }
     exit;
 }
 
-$leavename = $a['leave_type'];
+$leave_type = $resolved['leave_type_id'];
+$leavename  = $resolved['leave_type'];
 
 // ---------------------------------------------------------------------------
 // Rule 1/2 - annual leave limit only (all other types are unrestricted)
