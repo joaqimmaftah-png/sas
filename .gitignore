@@ -1,0 +1,23 @@
+# Local environment / secrets - never commit these
+.env
+.env.*
+*.env
+
+# PHP dependencies & tooling
+/vendor/
+composer.lock
+.phpunit.result.cache
+/.phpunit.cache/
+
+# Node
+/node_modules/
+
+# Logs
+*.log
+
+# CI/CD release artifact produced by the CD workflow
+/sas-release.zip
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

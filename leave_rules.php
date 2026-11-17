@@ -181,3 +181,66 @@ if (!function_exists('sas_leave_annual_balance')) {
         );
     }
 }
+
+if (!function_exists('sas_leave_type_count')) {
+    /** Number of leave types configured in tbl_leave_type (0 when none). */
+    function sas_leave_type_count()
+    {
+        $result = @mysql_query("SELECT COUNT(*) AS n FROM tbl_leave_type");
+        if (!$result) {
+            return 0;
+        }
+        $row = mysql_fetch_array($result);
+        return ($row && isset($row['n'])) ? (int) $row['n'] : 0;
+    }
+}
+
+if (!function_exists('sas_leave_resolve_type')) {
+    /**
+     * Resolve a submitted leave type value to a row in tbl_leave_type.
+     *
+     * The live form posts the leave_type_id, but older/hand-written requests
+     * may send the type NAME instead. Accept either so a valid leave type is
+     * never refused just because the value arrived in a different form - this
+     * is the check that used to fail with "Please select a valid leave type
+     * from the list." even though the type existed.
+     *
+     * Returns ['leave_type_id' => id, 'leave_type' => name] on success,
+     * or null when the value matches nothing.
+     */
+    function sas_leave_resolve_type($value)
+    {
+        $v = trim((string) $value);
+        if ($v === '') {
+            return null;
+        }
+
+        $escaped = mysql_real_escape_string($v);
+
+        // 1) match by id (the normal case - the form posts leave_type_id)
+        $result = @mysql_query(
+            "SELECT leave_type_id, leave_type FROM tbl_leave_type"
+            . " WHERE leave_type_id='" . $escaped . "' LIMIT 1"
+        );
+        if ($result && ($row = mysql_fetch_array($result))) {
+            return array(
+                'leave_type_id' => $row['leave_type_id'],
+                'leave_type'    => $row['leave_type'],
+            );
+        }
+
+        // 2) match by name (legacy / hand-written requests)
+        $result = @mysql_query(
+            "SELECT leave_type_id, leave_type FROM tbl_leave_type"
+            . " WHERE leave_type='" . $escaped . "' LIMIT 1"
+        );
+        if ($result && ($row = mysql_fetch_array($result))) {
+            return array(
+                'leave_type_id' => $row['leave_type_id'],
+                'leave_type'    => $row['leave_type'],
+            );
+        }
+
+        return null;
+    }
+}

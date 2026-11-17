@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "arena/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: PHP syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli
+          coverage: none
+
+      - name: Lint all PHP files
+        run: php tests/lint.php
+
+  test:
+    name: Leave module tests
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+          MYSQL_DATABASE: sas_test
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-timeout=10s
+          --health-retries=30
+
+    env:
+      SAS_DB_HOST: 127.0.0.1
+      SAS_DB_PORT: "3306"
+      SAS_DB_USER: root
+      SAS_DB_PASS: ""
+      SAS_DB_NAME: sas_test
+      SAS_TEST_DB_NAME: sas_test
+      SAS_TIMEZONE: UTC
+      SAS_DEBUG: "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli
+          coverage: none
+
+      - name: Wait for MySQL
+        run: |
+          for i in $(seq 1 30); do
+            if mysqladmin ping -h 127.0.0.1 -P 3306 --silent 2>/dev/null; then
+              echo "MySQL is ready"
+              exit 0
+            fi
+            echo "Waiting for MySQL... ($i)"
+            sleep 2
+          done
+          echo "MySQL did not become ready"
+          exit 1
+
+      - name: Run leave module tests
+        run: php tests/run.php
