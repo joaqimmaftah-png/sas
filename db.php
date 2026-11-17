@@ -23,6 +23,51 @@ if (SAS_DEBUG) {
     error_reporting(0);
 }
 
+// Capture serious PHP errors (fatals / parse errors) to SAS_ERROR_LOG so that,
+// even when SAS_DEBUG is off and errors are hidden from the browser (which
+// otherwise shows only a bare "HTTP 500"), the real cause is still recorded
+// and can be read from the log file or the host's error log.
+if (!function_exists('sas_error_log_write')) {
+    function sas_error_log_write($message)
+    {
+        if (!defined('SAS_ERROR_LOG')) {
+            return;
+        }
+        $line = '[' . date('Y-m-d H:i:s') . '] ' . $message . "\n";
+        // Try the local file; also send to the SAPI/system error log as a
+        // fallback (on cPanel this lands in the account error log).
+        @file_put_contents(SAS_ERROR_LOG, $line, FILE_APPEND);
+        @error_log($line);
+    }
+}
+
+if (!function_exists('sas_log_error')) {
+    // Handles non-fatal errors/warnings. With error_reporting(0) these are
+    // ignored (return false); fatals are what we care about for a 500.
+    function sas_log_error($errno, $errstr, $errfile = '', $errline = 0)
+    {
+        if (!(error_reporting() & $errno)) {
+            return false;
+        }
+        sas_error_log_write('PHP error (#' . $errno . '): ' . $errstr . ' in ' . $errfile . ' on line ' . $errline);
+        return true;
+    }
+}
+
+if (function_exists('set_error_handler')) {
+    set_error_handler('sas_log_error');
+}
+
+if (function_exists('register_shutdown_function')) {
+    register_shutdown_function(function () {
+        $e = error_get_last();
+        if ($e && isset($e['type'], $e['message'])
+            && in_array((int) $e['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR), true)) {
+            sas_error_log_write('FATAL (#' . $e['type'] . '): ' . $e['message'] . ' in ' . $e['file'] . ' on line ' . $e['line']);
+        }
+    });
+}
+
 /**
  * Return the single shared database link, opening it on first use.
  * Handy for code that wants an explicit handle:  $r = sas_db();

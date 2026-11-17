@@ -44,6 +44,11 @@ if (!defined('SAS_DB_HOST')) {
     // Set to true (or SAS_DEBUG=1) to show PHP errors on screen while fixing problems.
     // Keep false in production: errors are then hidden (blank page instead of a message).
     define('SAS_DEBUG', in_array(strtolower((string) sas_env('SAS_DEBUG', '0')), ['1', 'true', 'yes', 'on'], true));
+
+    // Where to write serious PHP errors (especially fatals) when SAS_DEBUG is off.
+    // This keeps a trace of the real cause of a blank 500 so it can be diagnosed
+    // on a hosted server. Override with the SAS_ERROR_LOG environment variable.
+    define('SAS_ERROR_LOG', sas_env('SAS_ERROR_LOG', __DIR__ . '/error_log.txt'));
 }
 
 // Backwards-compatible variable names (old code used these directly).

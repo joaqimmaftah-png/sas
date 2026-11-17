@@ -14,6 +14,7 @@ composer.lock
 
 # Logs
 *.log
+/error_log.txt
 
 # CI/CD release artifact produced by the CD workflow
 /sas-release.zip

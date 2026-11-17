@@ -38,14 +38,20 @@ if (function_exists('mysqli_report')) {
 }
 
 // Old MYSQL_* fetch-type constants -> MYSQLI_* equivalents.
-if (!defined('MYSQL_ASSOC')) {
-    define('MYSQL_ASSOC', MYSQLI_ASSOC);
-}
-if (!defined('MYSQL_NUM')) {
-    define('MYSQL_NUM', MYSQLI_NUM);
-}
-if (!defined('MYSQL_BOTH')) {
-    define('MYSQL_BOTH', MYSQLI_BOTH);
+// Only define them when the mysqli extension is present. On PHP 7.2+ an
+// undefined constant is a fatal error, so referencing MYSQLI_ASSOC etc.
+// when mysqli is missing would turn a missing extension into a 500 instead
+// of a clear, catchable "mysqli required" message.
+if (function_exists('mysqli_init')) {
+    if (!defined('MYSQL_ASSOC')) {
+        define('MYSQL_ASSOC', MYSQLI_ASSOC);
+    }
+    if (!defined('MYSQL_NUM')) {
+        define('MYSQL_NUM', MYSQLI_NUM);
+    }
+    if (!defined('MYSQL_BOTH')) {
+        define('MYSQL_BOTH', MYSQLI_BOTH);
+    }
 }
 
 $GLOBALS['__mysql_compat_default_link'] = null;
@@ -66,6 +72,14 @@ function __mysql_compat_link($link = null)
 if (!function_exists('mysql_connect')) {
     function mysql_connect($host = 'localhost', $user = '', $password = '', $new_link = false, $client_flags = 0)
     {
+        // The mysqli extension is the backbone of this shim. Without it there
+        // is no way to talk to MySQL - return false (the caller's "or die"
+        // shows a readable message) rather than fatalling on mysqli_init().
+        if (!function_exists('mysqli_init')) {
+            error_log('SAS: the mysqli PHP extension is required but is not loaded on this server.');
+            return false;
+        }
+
         // Old ext/mysql allowed "host:port" and "host:/path/to/socket".
         $port = null;
         $socket = null;
