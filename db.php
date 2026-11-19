@@ -35,7 +35,11 @@ if (!function_exists('sas_db')) {
         }
 
         $host = SAS_DB_HOST . (SAS_DB_PORT !== '' ? ':' . SAS_DB_PORT : '');
-        $link = mysql_connect($host, SAS_DB_USER, SAS_DB_PASS)
+        // Keep the legacy API behind mysql_compat.php on supported PHP versions.
+        // On old PHP releases where ext/mysql is still present, @ also prevents
+        // its E_DEPRECATED warning from corrupting AJAX/JSON responses; the
+        // compatibility layer uses mysqli directly when ext/mysql is absent.
+        $link = @mysql_connect($host, SAS_DB_USER, SAS_DB_PASS)
             or die('Database connection failed. Check db_config.php');
         mysql_select_db(SAS_DB_NAME, $link)
             or die("Database '" . htmlspecialchars(SAS_DB_NAME) . "' could not be selected. Check db_config.php");
