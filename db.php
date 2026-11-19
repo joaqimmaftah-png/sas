@@ -30,7 +30,8 @@ if (SAS_DEBUG) {
 if (!function_exists('sas_db')) {
     function sas_db()
     {
-        if (isset($GLOBALS['__sas_db_link']) && $GLOBALS['__sas_db_link'] instanceof mysqli) {
+        if (isset($GLOBALS['__sas_db_link'])
+            && ($GLOBALS['__sas_db_link'] instanceof mysqli || is_resource($GLOBALS['__sas_db_link']))) {
             return $GLOBALS['__sas_db_link'];
         }
 
@@ -43,8 +44,13 @@ if (!function_exists('sas_db')) {
             or die('Database connection failed. Check db_config.php');
         mysql_select_db(SAS_DB_NAME, $link)
             or die("Database '" . htmlspecialchars(SAS_DB_NAME) . "' could not be selected. Check db_config.php");
-        if (function_exists('mysqli_set_charset')) {
+        // ext/mysql connections are resources, while the compatibility layer
+        // returns a mysqli object. Pass each handle only to its matching API;
+        // mysqli_set_charset() throws TypeError for a legacy resource on PHP 8.
+        if ($link instanceof mysqli && function_exists('mysqli_set_charset')) {
             @mysqli_set_charset($link, 'utf8mb4');
+        } elseif (is_resource($link) && function_exists('mysql_set_charset')) {
+            @mysql_set_charset('utf8mb4', $link);
         }
 
         $GLOBALS['__sas_db_link'] = $link;
