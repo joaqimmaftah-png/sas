@@ -99,23 +99,43 @@ $d2 = date('Ymd', $end_ts);
 // Lookups
 // ---------------------------------------------------------------------------
 $q = function ($sql) {
-    return mysql_query($sql) or die(mysql_error());
+    $result = mysql_query($sql);
+    if ($result === false) {
+        die(mysql_error());
+    }
+    return $result;
+};
+
+// A SELECT must return a result set. Some legacy database layers can return
+// boolean true (the success value for INSERT/UPDATE) instead. Never pass that
+// value to mysql_fetch_array(): ext/mysql raises a fatal TypeError on newer
+// PHP releases. Return no row and record enough detail for the server log.
+$fetch_one = function ($sql) use ($q) {
+    $result = $q($sql);
+    $is_mysqli_result = class_exists('mysqli_result', false) && $result instanceof mysqli_result;
+    if (!is_resource($result) && !$is_mysqli_result) {
+        error_log('SAS leave request: expected SELECT result set; got '
+            . (is_bool($result) ? 'boolean ' . ($result ? 'true' : 'false') : gettype($result))
+            . '. Database message: ' . mysql_error());
+        return false;
+    }
+    return mysql_fetch_array($result);
 };
 
 $emp_sql = mysql_real_escape_string($emp_file_no);
 $fs_sql  = mysql_real_escape_string($fs);
 $hod_sql = mysql_real_escape_string($hod);
 
-$ww  = mysql_fetch_array($q("SELECT * FROM tbl_employee WHERE emp_file_no='$fs_sql'"));
-$ww2 = mysql_fetch_array($q("SELECT * FROM tbl_employee WHERE emp_file_no='$hod_sql'"));
-$ww3 = mysql_fetch_array($q("SELECT * FROM tbl_employee WHERE emp_file_no='$emp_sql'"));
+$ww  = $fetch_one("SELECT * FROM tbl_employee WHERE emp_file_no='$fs_sql'");
+$ww2 = $fetch_one("SELECT * FROM tbl_employee WHERE emp_file_no='$hod_sql'");
+$ww3 = $fetch_one("SELECT * FROM tbl_employee WHERE emp_file_no='$emp_sql'");
 
 $fsname   = $ww ? trim($ww['first_name'] . ' ' . $ww['surname']) : '';
 $hodname  = $ww2 ? trim($ww2['first_name'] . ' ' . $ww2['surname']) : '';
 $yourname = $ww3 ? trim($ww3['first_name'] . ' ' . $ww3['surname']) : '';
 
-$e  = mysql_fetch_array($q("SELECT * FROM tbl_contact WHERE emp_file_no='$fs_sql'"));
-$v  = mysql_fetch_array($q("SELECT * FROM tbl_contact WHERE emp_file_no='$hod_sql'"));
+$e  = $fetch_one("SELECT * FROM tbl_contact WHERE emp_file_no='$fs_sql'");
+$v  = $fetch_one("SELECT * FROM tbl_contact WHERE emp_file_no='$hod_sql'");
 $emailf = $e ? trim($e['email']) : '';
 $emailh = $v ? trim($v['email']) : '';
 
